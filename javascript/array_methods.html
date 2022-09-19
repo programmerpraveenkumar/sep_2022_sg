@@ -1,0 +1,43 @@
+<html>
+    <head>
+            <script type="text/javascript">
+                //push - add the lemetn to the array.
+                var num = [0,15,78,56,89,45,12,78,4];
+                //from the above array get the number wch is greater than 50.
+                for(let index in num){
+                    let val = num[index];
+                    if(val >50)
+                    console.log(val);
+                }
+
+                //filter
+                var new_list = num.filter(obj=>obj>50 && obj<70);
+                console.log(new_list);
+            
+                let personDetails = [
+             {
+                "name":"test 0", 
+                "age":15,
+             } ,
+             {
+                "name":"test 1", 
+                "age":25,
+             } ,
+             {
+                "name":"test 2", 
+                "age":35,
+             } ,
+              {
+                "name":"test 2", 
+                "age":45,
+             } 
+             ];
+             var new_list = personDetails.filter(obj=>obj.age<30);
+             console.log(new_list);
+            </script>
+            
+    </head>
+    <body>
+    </body>
+   
+</html>

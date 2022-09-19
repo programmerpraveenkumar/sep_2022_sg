@@ -1,0 +1,41 @@
+<html>
+    <head>
+            <script type="text/javascript">
+               
+              
+               
+                let personDetails = [
+             {
+                "name":"test 0", 
+                "age":15,
+             } ,
+             {
+                "name":"test 1", 
+                "age":25,
+             } ,
+             {
+                "name":"test 2", 
+                "age":35,
+             } ,
+              {
+                "name":"test 2", 
+                "age":45,
+             } 
+             ];
+             personDetails.map(obj=>{
+               if(obj.age<30){
+                     obj.isAdult = true;
+               }else{
+                  obj.isAdult = false;
+               }
+            }); 
+            // let list = personDetails.filter(obj=>obj.age <25);
+            // list.map(obj=>obj['adult']= true);
+            console.log(personDetails)
+            </script>
+            
+    </head>
+    <body>
+    </body>
+   
+</html>

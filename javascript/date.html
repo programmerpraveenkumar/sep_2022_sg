@@ -1,0 +1,45 @@
+<html>
+    <head>
+            <script type="text/javascript">
+                let d = new Date();//createign object for date.
+                //console.log(d);
+                console.log(d.getFullYear()+" "+d.getDate()+" "+d.getMonth());
+                console.log(d.getHours()+" "+d.getMinutes()+" "+d.getSeconds());
+                console.log(d.getDay())
+                setInterval(()=>{
+                    let d = new Date();//createign object for date.
+                    let hours = d.getHours();
+                    let mins = d.getMinutes();
+                    let seconds = d.getSeconds();
+                    if(hours <10){
+                        hours="0"+hours;
+                    }
+                    
+
+                    document.getElementById("time").innerHTML = hours+":"+d.getMinutes()+":"+d.getSeconds();
+                },1000)
+
+                //yyyy mm dd
+                let dd = new Date("03/10/1992");
+                let diff = new Date().getTime()-dd.getTime();//currentdate - dob
+              //  document.writeln("diff is " + diff + " years");  
+
+                var age_dt = new Date(diff);   
+      
+                 //extract year from date      
+              var year = age_dt.getUTCFullYear();  
+        
+                 //now calculate the age of the user  
+             var age = Math.abs(year - 1970);  
+             document.write("Age of the date entered: " + age + " years");  
+            </script>
+            
+    </head>
+    <body>
+        <h1 id="time"></h1>
+
+        <input id="dob" type="date">
+        <button> CLIck to find the age</button>
+    </body>
+   
+</html>
