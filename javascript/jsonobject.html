@@ -1,0 +1,55 @@
+<html>
+    <head>
+            <script type="text/javascript">
+              //array of ojects
+             let personDetails = [
+             {
+                "name":"test 0", 
+                "mobile":[234234234,987987978],
+                "city":"some city",
+                "dob":"some date",
+                "address":{
+                  "street":"1st stree",
+                  "pincode":4545,
+                  "city":"some city"
+                }
+               
+             } ,
+             {
+                "name":"test 1", 
+                "mobile":[234234234,23423423432],
+                "city":"some city",
+                "dob":"some date"
+             } ,
+             {
+                "name":"test 2", 
+                "mobile":[234234234,23423423432],
+                "city":"some city",
+                "dob":"some date"
+             } 
+             ];
+             console.log(personDetails[0]['mobile'][1]);
+            // console.log(personDetails[11]['name']);//error
+         
+               for(let obj in personDetails[0]){
+                  console.log(obj+" "+personDetails[0][obj])
+
+               }
+
+             for(let index in personDetails){
+               //console.log(index+"--"+personDetails[index]);
+            //    console.log(personDetails[index]);
+               for(let obj in personDetails[index]){
+                     console.log(index,obj+" "+personDetails[index][obj])
+               }
+             }
+            
+
+
+            </script>
+            
+    </head>
+    <body>
+    </body>
+   
+</html>

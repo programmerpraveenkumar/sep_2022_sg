@@ -1,0 +1,40 @@
+<html>
+    <head>
+            <script type="text/javascript">
+              //array of ojects
+             let personDetails = [
+             {
+                "name":"test 0" ,
+                "name":"new name"//value will be overriden
+             } ,
+             {
+                "name":"test 1",
+             },
+             {
+                "name":"test 2", 
+                "mobile":123234
+             } 
+             ];
+            personDetails[1].name//1st position of name
+            console.log(personDetails)
+            console.log( personDetails[2]['mobile'] );//before update
+            personDetails[2]['mobile'] = 'new mobile '//udate value 
+            personDetails[2]['city'] = "new city";//new obj added to 2nd position
+            console.log( personDetails[2]['mobile'] )
+            //belwo code will add new element.
+            personDetails.push({"name":"new element","mobile":554});
+            personDetails.push({"name":"new element2","mobile":345345});
+
+            console.log(personDetails);
+            for(let index in personDetails){
+               for(let obj in personDetails[index]){
+                     console.log(index,obj,personDetails[index][obj])
+               }
+            }
+            </script>
+            
+    </head>
+    <body>
+    </body>
+   
+</html>

@@ -1,0 +1,30 @@
+<html>
+    <head>
+    
+            <script type="text/javascript">
+                function printMessage(){
+                    console.log("im printing..");
+                }
+                setTimeout(printMessage,2000);//only one time after 2secs
+                console.log("page is loading....");
+
+               var interval = '';
+               function startInterval(){
+                interval =  setInterval(printMessage,2000);//each 2secs
+               }
+               function clearTheInterval(){
+                clearInterval(interval);
+               }
+
+
+            </script>
+            
+    </head>
+    <body>
+      <input type="button" value="Start" onclick="startInterval()">
+      <input type="button" value="Stop" onclick="clearTheInterval()">
+       
+
+    </body>
+   
+</html>

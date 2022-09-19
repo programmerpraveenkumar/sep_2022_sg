@@ -1,0 +1,52 @@
+<html>
+    <head>
+     <style>
+        
+        p{
+            width: 50%;
+            float: left;
+            background-color: antiquewhite;
+        }
+        .mobile_menu{
+            display: none;
+        }
+        .menu li{
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        /* media  query */
+        /* when the viewport is 800px or smaller */
+        @media screen and (max-width: 800px) {
+            /* .menu{
+                display: none;
+            } */
+            .menu li{
+                display: block;
+                cursor: pointer;
+             }
+            .mobile_menu{
+                display: block;
+            }
+                h1 {
+                font-size: 25px;
+                }
+                p{
+                 width: 100%;
+                 font-size: 20px;
+                }
+            }
+
+    
+     </style>
+    </head>
+    <body>
+        <button class="menu mobile_menu"> Click to show Menu</button>
+        <ul class="menu"><li>Home</li><li>About</li><li>Gallery</li></ul>
+        
+            <h1>This is heading for  screen</h1>
+            <p>this is some paragrap</p>
+            <p>this is some paragrap</p>
+    
+    </body>
+</html>

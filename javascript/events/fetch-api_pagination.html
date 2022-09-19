@@ -1,0 +1,39 @@
+<html>
+    <head>
+       
+            <script type="text/javascript">
+                //get method
+                //below method returns the promise.
+                function calAPI(){
+                    let pageNo = document.getElementById("page_no").value
+                    fetch(
+                    "https://reqres.in/api/users?page="+pageNo,
+                    {method:"GET"}
+                    ).then(res=>res.json())//res.json()- another promise.res.text()
+                    .then(res2=>{                       
+                        document.getElementById("server_response").innerHTML = JSON.stringify(res2);//inject the response in the div
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+                }
+                
+                    
+                  
+
+            </script>
+            
+    </head>
+    <body>
+        <div id="server_response"></div>
+      <select onchange="calAPI()" id="page_no">
+        <option value="1">Page 1</option>
+        <option value="2">Page 2</option>
+        <option value="3">Page 3</option>
+      </select>
+        <button  onclick="calAPI()">click to send data</button>
+          
+
+    </body>
+   
+</html>

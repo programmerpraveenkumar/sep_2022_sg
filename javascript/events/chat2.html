@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <style>
+
+            #message_list{
+                height: 250px;
+                overflow-y: auto;
+            }
+            .parent_div{
+                border: 2px solid #000;
+                width: 50%;
+                margin: 0 auto;
+                overflow: hidden;
+            }
+            .input_message{
+                border: 2px solid #b02727;
+    margin: 2%;
+            }
+            .input_message textarea{
+                height: 80px;
+    width: 100%;
+            }
+            .send_btn{
+                float: right;
+    width: 20%;
+    padding: 1%;
+    background: violet;
+    color: #fff;
+    font-size: 20px;
+    margin: 1%;
+            }
+        </style>
+            <script type="text/javascript">
+               var chatMessage = [];//global variable to store the previous value.
+               function addMessage(){
+                    let val = document.getElementById("message").value;
+                   // let user_name = document.getElementById("user_name").value;//inputbox
+                    // let tmpMessage = {
+	                // 	"message":val,
+		            //     "username":user_name
+	                //     }
+                    chatMessage.push(val);//adding the value to the array from the textarea
+                   // chatMessage.push(tmpMessage);//adding the value to the array from the textarea
+                   // console.log(chatMessage);
+                    let html = '';
+                    for(let message_idx in chatMessage){
+                        console.log(message_idx,chatMessage[message_idx]);
+                        html += '<div>'+chatMessage[message_idx]+'<div>';
+                    }
+                 document.getElementById("message_list").innerHTML = html;
+               }
+               
+
+
+            </script>
+            
+    </head>
+    <body>
+       <div class="parent_div">
+            <div id="message_list"></div>
+            <div class="input_message">
+                <textarea name="" id="message" placeholder="Enter messgae"></textarea>
+    
+           </div>
+           <div>
+            <button class="send_btn" onclick="addMessage()">Send</button>
+           </div>
+       </div>
+       
+
+    </body>
+   
+</html>

@@ -1,0 +1,80 @@
+<html>
+    <head>
+       
+         <style>
+            /*
+            inline ->to show the text content.height and width is based on content
+            block elements->height and width is based onthe screen size
+
+            block element can hold other block and inline elements
+            inline elements can hold nly inline.
+
+            px s the best way for mention height 
+            
+            margin-top
+            margin-bottom
+            margin-left
+            margin-right
+            margin:2%;/* all 4(top,bottom,right,left) direction will have 2% space*
+            margin:2% 1%; top&bottom ,right&left
+            margin:2% 1% 3%;top right&left bottom
+            margin:2% 1% 3% 4%;top right bottom left(clock wise)
+
+
+            padding-top
+            padding-bottom
+            padding-left
+            padding-right
+            padding:2%;/* all 4(top,bottom,right,left) direction will have 2% space*
+            padding:2% 1%; top&bottom ,right&left
+            padding:2% 1% 3%;top right&left bottom
+            padding:2% 1% 3% 4%;top right bottom left(clock wise)
+            */
+            .content{
+                    background-color: red;
+                    width: 50%;
+                     margin:2% 1%;
+                    /* margin-top: 2%;/*ony for top of the element*/
+            }
+            .content_padding{
+                    background-color: #588aac;
+                    width: 50%;
+                     padding:2% 1%;
+                   
+            }
+            .content_overflow{
+                height: 80px;
+                width: 50%;
+                background-color: red;
+                overflow-y: auto;
+            }
+            .bg_sample{
+                background-color: aqua;
+            }
+           
+         </style>
+      
+    </head>
+    <body>
+       
+      <div class="content">
+            dfgh
+      </div>
+      <div class="content_padding">
+        dfgh
+    </div>
+    <div class="content_overflow">
+        This is the front page of the Simple English Wikipedia. Wikipedias are places where people work together to write encyclopedias in different languages. We use Simple English words and grammar here. The Simple English Wikipedia is for everyone! That includes children and adults who are learning English. There are 218,100 articles on the Simple English Wikipedia. All of the pages are free to use. They have all been published under both the Creative Commons Attribution/Share-Alike License 3.0 and the GNU Free Documentation License. You can help here! You may change these pages and make new pages. Read the help pages and other good pages to learn how to write pages here. If you need help, you may ask questions at Simple talk.
+        When writing articles here:
+        
+        Use Basic English words and shorter sentences. This allows people to understand complex terms or phrases.
+        Write good pages. The best encyclopedia pages have useful, well-written information.
+        Use the pages to learn and teach. These pages can help people learn English. You can also use them to make a new Wikipedia to help other people.
+        Simple does not mean short. Writing in Simple English means that simple words are used. It does not mean readers want basic information. Articles do not have to be short to be simple; expand articles, add details, but use basic vocabulary.
+        Be bold! Your article does not have to be perfect, because other editors will fix it and make it better. And most importantly, do not be afraid to start and make articles better yourself.
+    </div>
+    <span class="bg_sample">this is span(inline element)</span>
+    <div class="bg_sample">this is div(block element)</div>
+    </body>
+   
+</html>

@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <style>
+            h1,h2,.someClassname,#id{
+                color: red;
+                background-color: black;
+            }
+            div.heading1{
+                color: rgb(0, 255, 140);
+                background-color: black;
+            }
+            .heading1.div_class{
+                color: rgb(0, 255, 140);
+                background-color: rgb(214, 35, 35);
+            }
+            /* .sample_para div p{
+                    color: #14d8e2;
+                    background-color: black;
+            } */
+            
+            /* below css will apply css for all P child in the .sample_para */
+             .sample_para  p{
+                    color: #14d8e2;
+                    background-color: black;
+            }
+            /* below css will apply css for direct P child in the .sample_para */
+            .sample_para > p{
+                    color: #e9e9e9;
+                    background-color: black;
+            }
+        </style>
+
+    </head>
+    <body>
+       <h1 class="heading1">This is heading1</h1>
+       <h1 class="heading2">This is heading2</h1>
+       <div class="heading1 div_class">this is also heading</div>
+       <h2 class="heading3">This is heading2</h2>
+        <div class="sample_para">
+            <p>This is direct p child in the div</p>
+            <p>This is direct  p child in the div</p>
+            <div class="grand_div">
+                <p>
+                    this is p tag in the div
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    this is p tag in the div
+                </p>
+            </div>
+            
+            <div>
+                <p>
+                    tthis is p tag in the div
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

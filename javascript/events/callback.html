@@ -1,0 +1,34 @@
+<html>
+    <head>
+       
+            <script type="text/javascript">
+                function calmeafterTimeOut(){
+                    console.log("i ll call after timeoutffunction");
+                }
+                function setTimeOUtfunction(){
+                    console.log("called timeoutffunction");
+                    calmeafterTimeOut();
+                }
+                setTimeout(setTimeOUtfunction(),1000);
+
+                
+                setTimeout(function(){
+                    console.log("called timeoutffunction");
+                    calmeafterTimeOut();
+                },1000);
+               // anonymous method
+                (function(){
+                    console.log("hi how are ayou")
+                });//no name and no calling..but it ll executes
+             
+            </script>
+            
+    </head>
+    <body>
+      
+            <button class="send_btn" onclick="addMessage()">Send</button>
+          
+
+    </body>
+   
+</html>

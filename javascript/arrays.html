@@ -1,0 +1,45 @@
+<html>
+    <head>
+            <script type="text/javascript">
+              /*
+              index array ->[]
+              object -> {}-.key value
+              */
+             //array can hold multiple values
+             //array always starts with 0th position and goes on....0,1,2,3,4,5
+             let name = ["one","two","three","four","five"];//array declaration.
+             console.log(name[0]);//0 th position or index
+             console.log(name[1]);//1st position or index
+             console.log(name[10]);//undefined
+             console.log(name);//print the all the values of the array
+             console.log("---index array iteration----")
+             for(let indx in name){
+                console.log(indx+'--'+name[indx]);
+             }
+
+             //object
+             let personDetails = {
+                "name":"test", 
+                "mobile":234234234,
+                "city":"some city",
+                "dob":"some date",
+                "name":"update name"//value will be overridden as the key is duplicate
+             } ;
+             //access value by using key
+             console.log(personDetails['name']);//
+             console.log(personDetails['mobile']);//
+             console.log(personDetails['asdfasdf']);//undefined.
+
+             console.log("---object iteration----")
+             for(let key in personDetails){
+                console.log(key+'--'+personDetails[key]);
+             }
+
+
+            </script>
+            
+    </head>
+    <body>
+    </body>
+   
+</html>

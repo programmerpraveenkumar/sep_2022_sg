@@ -1,0 +1,47 @@
+<html>
+    <head>
+       
+            <script type="text/javascript">
+                
+               function postAPI(){
+                //get the value from input box with validation.
+                let name  = 'some val';
+                let job = 'some job'
+                    let param = {
+                           "name": name,
+                            "job": job
+                    }
+                    fetch(
+                    "https://reqres.in/api/users",
+                    {method:"POST",
+                    body:JSON.stringify(param),//sending data to server as json string.
+                    headers: {
+                        'Content-Type': 'application/json',//xml
+                        "token":"some token",
+                        "user_id":"1"
+                        },
+                    }
+                    ).then(res=>res.json())//res.json()- another promise.res.text()
+                    .then(res2=>{
+                        console.log(res2);//actual response from server
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+               }
+                    
+                    
+
+            </script>
+            
+    </head>
+    <body>
+        <div id="server_response"></div>
+      <input type="text" placeholder="Enter Job">
+      <input type="text" placeholder="Enter Name">
+        <button onclick="postAPI()">Click to call post api</button>
+          
+
+    </body>
+   
+</html>

@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <!-- 
+            position -> fixed positonin for the elemenet
+            margin-.creatign the space without background color around the element
+            padding->creating the space with background color around the element
+            float->floating the element to right or left
+            display->hide and show.
+            overflow->hide or show or scroll the content when overflows
+            what is inline and block elements
+         -->
+         <style>
+            .content{
+                    background-color: red;
+                    height: 500px;
+                    width: 150px;
+                    position: relative;
+            }
+            .help_content{
+                background-color: black;
+                color: #fff;
+                width: 150px;
+                font-size: 25px;
+                position: absolute;/*fix the element with below values*/
+                left: 50px;/*move the element 50px from the right side of the browser*/
+                bottom: 50px;/*move the element 50px from the top of the browser*/
+                
+            }
+         </style>
+      
+    </head>
+    <body>
+       
+      <div class="content">
+                <div class="help_content">help content</div>
+      </div>
+    </body>
+   
+</html>

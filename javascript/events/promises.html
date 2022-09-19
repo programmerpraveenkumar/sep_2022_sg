@@ -1,0 +1,37 @@
+<html>
+    <head>
+       
+            <script type="text/javascript">
+                    //create object for project and assign to prmsObj
+                let prmsObj = new Promise((success,failure)=>{
+                    //setTimeout(function(){success("this is success")},2000);
+                    setTimeout(function(){failure("this is failure")},2000);
+                   /// setTimeout(success('some success message'),1000);
+                    ///success("this is success");//cannot use return statment for sendin the data.
+                })
+                // let prmsObj2 = new Promise(function(success,failure){
+                //     setTimeout(function(){success("this is success")},2000);
+                //    /// setTimeout(success('some success message'),1000);
+                //     ///success("this is success");//cannot use return statment for sendin the data.
+                // })
+                
+             prmsObj.then(message=>{
+                //hanling the success reponse from promise.
+                console.log(message);//handling the success.
+             }).catch(err=>{
+                console.log(err)
+             })
+
+            
+
+            </script>
+            
+    </head>
+    <body>
+      
+        
+          
+
+    </body>
+   
+</html>

@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <style>
+            /*
+                class can be access using dot(.)
+                id can be access using hash symbol (#)
+            */
+            span{
+               color: #ef0cb6;     
+            }
+            .p_1{
+                color:#0ff1a5;
+                background-color: brown;
+                font-size: 27px;
+                width: 250px;
+                height: 50px;
+               
+            }
+            #p_id{
+                color: blanchedalmond; 
+            }
+           .p_2{
+            color: #fff;
+           }
+           .form_login{
+            background-color: #30ebb3;
+            display: none;
+           }
+           .input_ele{
+            color: #ef0cb6;
+           }
+           .form_register{
+            background-color: bisque;
+            display: block;
+           }
+           /* access elment using parent class. */
+          .form_register .input_ele{
+            color: #0a46ed;
+            width: 250px;
+            height: 50px;
+          }
+          .input_wrapper label{
+            color: cadetblue;
+            width: 150px;
+          }
+          /*
+          #id child_element{
+
+          }
+          */
+        </style>
+
+    </head>
+    <body>
+        <p id="p_id" class="p_1">This is Some <span>important</span> Class.</p>
+        <p id="p2_id">This is another Paragraph</p>
+        <div  class="p_1 p_2">This is sample div</div>
+        <a class="p_1" href="http://www.googl.com">Click here to go to google</a>
+        <form class="form_login" id="form" action="">
+            <div>
+                <h1>Login form</h1>
+            <div>
+                <label>Username</label>
+                <input class="input_ele" placeholder="Enter Username" type="text"/>
+            </div>
+            <div>
+                <label>Email</label>
+                <input  class="input_ele" placeholder="Enter Email" type="text"/>
+            </div>
+            <div>
+                <label>Password</label>
+                <input  class="input_ele" placeholder="Enter password" type="password"/>
+            </div>
+                <input type="button" value="Login">
+            </div>
+        </form>
+        <form class="form_login form_register" id="form" action="SERVER_API_URL" method="get">
+            <div>
+                <h1>Register form</h1>
+            <div class="input_wrapper">
+                <label>Username</label>
+                <input class="input_ele" placeholder="Enter Username" type="text"/>
+            </div>
+            <div class="input_wrapper">
+                <label>Email</label>
+                <input  class="input_ele" placeholder="Enter Email" type="text"/>
+            </div>
+            <div class="input_wrapper">
+                <label>Password</label>
+                <input  class="input_ele" placeholder="Enter password" type="password"/>
+            </div>
+                <input type="button" value="Login">
+            </div>
+        </form>
+        <label>Password</label>
+        <div>
+            <label>Password</label>
+        </div>
+        
+
+    </body>
+</html>

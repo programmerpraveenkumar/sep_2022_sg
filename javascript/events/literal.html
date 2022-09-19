@@ -1,0 +1,25 @@
+<html>
+    <head>
+    
+            <script type="text/javascript">
+                var start = 0;
+                function callMEthod(){
+                    let data = "sample data";
+                    let htmlData = `<div>${data}</div>
+                    <div>${data}</div>`;
+                    let htmlData2 = '<div>'+data+'</div>'+
+                    +'<div>'+data+'</div>';
+                    document.getElementById("value").innerHTML = htmlData;
+                }
+               
+
+            </script>
+            
+    </head>
+    <body>
+    <h1 id="value"></h1>
+    <input type="button" value="Start" onclick="callMEthod()">
+    
+    </body>
+   
+</html>

@@ -1,0 +1,34 @@
+<html>
+    <head>
+            <script type="text/javascript">
+                
+            function calculator(a,b,action){
+                  let result = 0;
+                  if(action == "add"){
+                    result = a+b;
+                  }else if(action == "sub"){
+                    result = a-b;
+                  }else if(action == "mul"){
+                    result = a*b;
+                  }else if(action == "div"){
+                    result = a/b;
+                  }
+                  return result;
+                }  
+            </script>
+            
+    </head>
+    <body>
+        <div id="div_id"></div>
+        <script>
+            var add_res = calculator(50,100,"add"); 
+            var sub_res = calculator(50,100,"sub"); 
+            var mul_res = calculator(50,100,"mul"); 
+            var div_res = calculator(500,100,"div"); 
+            console.log(add_res+" -- "+sub_res+"-- "+mul_res+"--"+div_res);
+          
+       </script>
+       <div>asdfasdfsadf</div>
+    </body>
+   
+</html>

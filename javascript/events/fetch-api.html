@@ -1,0 +1,47 @@
+<html>
+    <head>
+       
+            <script type="text/javascript">
+                //get method
+                //below method returns the promise.
+                fetch(
+                    "https://reqres.in/api/users?page=2",
+                    {method:"GET"}
+                    ).then(res=>res.json())//res.json()- another promise.res.text()
+                    .then(res2=>{
+                        console.log(res2);//actual response from server
+                        //below method is convert the jsonobject to jsonstring.
+                        // let userList = res2['data'];
+                        // for(let obj  in userList){
+                        //     `userList['first_name'] userList['email'] <img src="userList['avatar']"`
+                        // }
+                        document.getElementById("server_response").innerHTML = JSON.stringify(res2);//inject the response in the div
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+                    
+                    // //post
+                    // fetch(
+                    // "https://reqres.in/api/users?page=2",
+                    // {method:"POST"}
+                    // ).then(res=>res.json())//res.json()- another promise.res.text()
+                    // .then(res2=>{
+                    //     console.log(res2);//actual response from server
+                    // })
+                    // .catch(err=>{
+                    //     console.log(err)
+                    // })
+
+            </script>
+            
+    </head>
+    <body>
+        <div id="server_response"></div>
+      
+        
+          
+
+    </body>
+   
+</html>

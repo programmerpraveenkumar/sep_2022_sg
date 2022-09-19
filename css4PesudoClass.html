@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <style>
+            a{
+                text-decoration: none;
+                border: 1px dashed #000;
+            }
+            /* below css will applied whenever mouse is hover on the a tag */
+           a:hover{
+                color: red;
+                text-decoration: underline;
+           }
+           .sample_div:hover{
+                color: blueviolet;
+                background-color: red;
+           }
+           input:focus-visible{
+            border: 1px  red solid; 
+            outline: none;/*override the chrome browser prop*/
+           }
+
+              
+        </style>
+
+    </head>
+    <body>
+        <a title="This is help text"  href="http://www.google.com">Click here to go to google</a>
+         <div class="sample_div">Ths is sample div</div>
+         <input title="This is help text"  type="text" placeholder="Enter Message"/>
+    </body>
+</html>

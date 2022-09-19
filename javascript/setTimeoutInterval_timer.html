@@ -1,0 +1,37 @@
+<html>
+    <head>
+    
+            <script type="text/javascript">
+                var start = 0;
+                function printMessage(){
+                    start++;
+                    document.getElementById("value").innerHTML = start;
+                }
+                function resetStart(){
+                    start = 0;
+                    clearTheInterval();
+                    document.getElementById("value").innerHTML = start;
+
+                }
+
+               var interval = '';
+               function startInterval(){
+                interval =  setInterval(printMessage,1000);//each 2secs
+               }
+               function clearTheInterval(){
+                clearInterval(interval);
+               }
+
+
+            </script>
+            
+    </head>
+    <body>
+    <h1 id="value"></h1>
+    <input type="button" value="Start" onclick="startInterval()">
+    <input type="button" value="Stop" onclick="clearTheInterval()">
+    <input type="button" value="reset" onclick="resetStart()">
+
+    </body>
+   
+</html>
