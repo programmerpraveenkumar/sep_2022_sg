@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <script>
+            function setLocal(){
+                //store the vaue basead on the key in the localstorage
+                localStorage.setItem("token","local store value");
+                localStorage.setItem("user_id","local store value");
+            }
+            function getLocal(){
+                //if key is not exist.wil give undefined.
+                console.log(localStorage.getItem("name"));//access value usign key
+            }
+            function setSession(){
+                //store the vaue basead on the key in the sessionstorage
+                sessionStorage.setItem("name","session store value");
+
+            }
+            function getSession(){                
+                console.log(sessionStorage.getItem("name"));//access value usign key
+            }
+        </script>
+
+    </head>
+    <button onclick="getLocal()">get LocalStorage</button>
+    <button onclick="setLocal()">set LocalStorage</button>
+
+    <button onclick="getSession()">get Session Storage</button>
+    <button onclick="setSession()">set Session Storage</button>
+
+</html>

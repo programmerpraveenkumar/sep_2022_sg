@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <script>
+           function getTextVal(id){
+            let val = document.getElementById(id).value;
+            //console.log(val);
+            document.getElementById("show").innerHTML  = val;
+           }
+           function onblurHandling(id){
+            let val = document.getElementById(id).value;
+             document.getElementById("show").innerHTML  = val;
+           }
+           function mobileNoValidation(id){
+            let val = document.getElementById(id).value;
+            if(isNaN(val) || val.length <8 || val.length >15){
+                document.getElementById("show").innerHTML  = "Please Enter Valid Mobile No";
+            }else{
+                document.getElementById("show").innerHTML  = val;
+            }
+           }
+           function calWhileOnMouse( ){
+                console.log("mouse is hover");
+           }
+           function calWhileOnMouseLeave(){
+            console.log("mouse is leave");
+           }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="input" onkeypress="getTextVal('input')">
+        <input type="text" id="input_1" onkeyup="getTextVal('input_1')">
+        <input type="text" id="input_2" onblur="onblurHandling('input_2')">
+
+        <div>
+            <input type="text" id="mobile_no" placeholder="Enter Mobile" onblur="mobileNoValidation('mobile_no')">
+        </div>
+        <h1 id="show"></h1>
+        <div  style="background-color: red;" onmouseleave="calWhileOnMouseLeave()" onmouseover="calWhileOnMouse()">Hover the mouse on this tag</div>
+        <!-- <div  style="background-color: red;" onmouseleave="calWhileOnMouseLeave()">Hover the mouse on this tag</div> -->
+    </body>
+</html>
