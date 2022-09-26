@@ -8,3 +8,28 @@
 .menu li a:hover{
   background-color: aqua;
 } 
+.people_name{
+  color: red;
+}
+
+.heading_2{
+  background-color: rgb(222, 20, 20);
+  color: #fff;
+ 
+}
+.heading_3{
+  background-color: rgba(204, 14, 234, 0.324);
+  color: #fff;
+}
+.heading_4{
+  background-color: rgb(97, 222, 20);
+  color: #fff;
+  display: none;
+}
+.errorClass{
+   border: 5px solid red;
+}
+span.errorClass{
+  border: none;
+  color: red;
+}
