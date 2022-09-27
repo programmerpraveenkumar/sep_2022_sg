@@ -13,7 +13,7 @@ function About(){
     const[headingClassName,setHeadingClassName] = useState('heading_2');
     return(
         <div>
-            <Header/>
+            <Header menuname='about'/>
             <h1>This is heading of about</h1>
             {/* data binding in react */}
             <h2 className={headingClassName}>{name}</h2>

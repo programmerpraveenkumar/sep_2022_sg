@@ -18,7 +18,8 @@ function Contact(){
             <h1>This is heading of Contact</h1>
             {/* data binding in react */}
             <div>
-            <input className={error?'errorClass':""} onChange={(e)=>setMessage(e.target.value)} type="Enter Message" placeholder="Enter message"/>
+            <input value={message} className={error?'errorClass':""} onChange={(e)=>setMessage(e.target.value)}
+             type="text" placeholder="Enter message"/>
                 {error?<span class="errorClass">Please ENter name</span>:""}
             </div>
             
