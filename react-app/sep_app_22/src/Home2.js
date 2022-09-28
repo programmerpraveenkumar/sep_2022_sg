@@ -3,6 +3,7 @@ import React from 'react';
 import Comp1 from './Comp1';
 import Comp2 from './Comp2';
 import Header from './Header';
+import Home3 from './Home3';
 import UserList from './UserList';
 
 class Home2 extends React.Component{
@@ -28,14 +29,37 @@ class Home2 extends React.Component{
         "headingClass":"",
         "showComp1":false,
         "showComp2":false,
+        "showComp3":false
        }
-       this.getApiResponse(1);//will be called during the page load.
+      
 
        //this.state.name //access the varible from state.
        //this.state.age
     }
+    // //react lifecycle method will be called during page load only once.
+    // componentDidMount(){
+    //     //console.log("this is componentDidMount");
+    //     this.getApiResponse(1);//will be called during the page load.
+    // }
+    // // //react lifecycle method will be called during page unload only once.
+    // componentWillUnmount(){
+    //     console.log("this is home2 componentwillunmount")
+    // }
      getApiResponse = (pageNo)=>{
         fetch("https://reqres.in/api/users?page="+pageNo)
+        .then(res=>res.json())
+        .then(res2=>{
+            this.setState({"userList":res2['data']});//update the server respon to the state.
+            console.log(res2);
+        })
+    }
+   postApiResponse = ()=>{
+        let param  = {
+            "name":"sasdf",//TODO has to come from input box
+            "job":"some job"//TODO  has to come from input box
+        }
+        fetch("https://reqres.in/api/users",
+        {method:"POST",body:JSON.stringify(param)})
         .then(res=>res.json())
         .then(res2=>{
             this.setState({"userList":res2['data']});//update the server respon to the state.
@@ -97,6 +121,9 @@ class Home2 extends React.Component{
                 <button onClick={()=>this.setState({'showComp2':true})}>show COmp2</button>
                 <button onClick={()=>this.setState({'showComp1':false})}>hide COmp1</button>
                 <button onClick={()=>this.setState({'showComp2':false})}>hide COmp2</button>
+                {this.state.showComp3?<div><Home3/></div>:null}
+                <button onClick={()=>this.setState({'showComp3':true})}>Show COmp3</button>
+                <button onClick={()=>this.setState({'showComp3':false})}>hide COmp3</button>
             </div>
         )
     }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import './App.css';
 function Header(props){
     let name  = 'this is variable';
@@ -16,9 +17,10 @@ function Header(props){
         <ul className='menu'>
              <li>Recvd value is {props.menuname} {props.submenu}</li>
             <li className={props.menuname =='home'?"active":''} ><a href="home">Home</a></li>
+            <li className={props.menuname =='home2'?"active":''} ><NavLink to="/home2">Home 2</NavLink></li>
             <li className={props.menuname =='home2'?"active":''} ><a href="home2">Home 2</a></li>
             <li className={props.menuname =='about'?"active":''} ><a href="about">About</a></li>
-            <li className={props.menuname =='contact'?"active":''} ><a href="contact">Contact</a></li>
+            <li className={props.menuname =='contact'?"active":''} ><NavLink to="/contact">Contact</NavLink></li>
            {isExist?<li><a href="#">Logout</a></li>:null}
 
         </ul>

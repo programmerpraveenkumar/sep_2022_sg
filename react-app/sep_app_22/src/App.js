@@ -6,12 +6,13 @@ import About from './About';
 import Contact from './Contact';
 import Header from './Header';
 import Home2 from './Home2';
+import { NavLink } from 'react-router-dom';
 
 function App() {
   return (
    <>
    {/* for each url write the navigation */}
-
+  
    <Router>
       <Routes>
           <Route path="/home" element={<Home/>}/>          

@@ -36,16 +36,16 @@ function Home(){
     },[])//empy array cannot be changes..so it  can be called only once during the page load.
    
     //below useeffect will call when email and password is changed
-    useEffect(()=>{
-       console.log("email is changing..");
+    // useEffect(()=>{
+    //    console.log("email is changing..");
        
-       getApiResponse(2);
-     },[password,email])
+    //    getApiResponse(2);
+    //  },[password,email])
      
       //below useeffect will call when email and password is changed
      useEffect(()=>{
         console.log("email is changing..");
-        //setEmail('new value.');
+       // setEmail('new value.');
       },[email])
      //below useeffect will call when password is changed
      useEffect(()=>{
