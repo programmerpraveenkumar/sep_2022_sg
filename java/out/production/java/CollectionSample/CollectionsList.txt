@@ -1,0 +1,10 @@
+
+
+List will work like array
+List->ArrayList,LinkedList,Vector
+
+will not allow for duplicates.
+Set->HashSet,LinkedHashSet,TreeSet
+
+key and value pair,
+Map->HashMap,LinkedHashMap,TreeMap,

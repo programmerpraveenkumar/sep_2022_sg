@@ -15,7 +15,7 @@ public class SampleArray {
         System.out.println("this is the starting line");
         try{
             String[] name = {"asdf","adsf","asdf"};
-            System.out.println(name[10]);
+            System.out.println(name[1]);
             //file exception
         }
 //        catch (ArrayIndexOutOfBoundsException error){
@@ -25,6 +25,9 @@ public class SampleArray {
 //            e.printStackTrace();
             System.out.println("Error occurred."+e.getMessage());
             System.err.println("Error occurred.during index "+e.getMessage());
+        }finally {
+            System.out.println("finally block ");
+            //always executed either try or catch
         }
 
 
