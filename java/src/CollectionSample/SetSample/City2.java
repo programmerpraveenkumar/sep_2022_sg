@@ -22,6 +22,8 @@ public class City2 implements Comparable<City2> {
 
     @Override
     public int compareTo(City2 o) {
+        System.out.print(this.getPeopleCount()+" "+this.getName()+" -- ");
+        System.out.println(o.getPeopleCount()+" "+o.getName());
         return Integer.compare(this.getPeopleCount(),o.getPeopleCount());
     }
 }

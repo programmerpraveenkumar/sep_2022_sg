@@ -41,7 +41,7 @@ public class ArrayListPojoComparable {
         cityList.add(city2);
         cityList.add(city3);
         cityList.add(city4);
-
+        ArrayList<City> cityList1 = cityList;
         Collections.sort(cityList);
 
         for(City city :cityList){

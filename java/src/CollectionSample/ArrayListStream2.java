@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 
  */
-public class ArrayListPojo {
+public class ArrayListStream2 {
     public static void main(String[] args) {
         ArrayList<Person> personList = new ArrayList<Person>();//will accept ony the stringnameList.add("person1");//0
 
@@ -39,26 +39,17 @@ public class ArrayListPojo {
         personList.add(person3);
         personList.add(person4);
 
-        for(Person person:personList){
-            System.out.println(person.getAge()+" "+person.getName());
-        }
 
         personList.forEach((obj)->{
             System.out.println(obj.getAge()+" "+obj.getName());
         });
 
-        System.out.println("--after filter --");
-        List<Person> below10List = personList.stream().filter((obj)->obj.getAge()<=10).collect(Collectors.toList());
+      List<Integer> ageList = personList.stream().map((obj)->obj.getAge()+5).collect(Collectors.toList());
+        List<Integer> ageList1 = personList.stream().filter((obj)->obj.getAge()<=10).map((obj)->obj.getAge()+5).collect(Collectors.toList());
+
+        System.out.println(ageList1);
 
 
-        below10List.forEach((obj)->{
-            System.out.println(obj.getAge()+" "+obj.getName());
-        });
-        //below10List[0]
-        System.out.println("1st data after filter");
-        Person p1 = personList.stream().filter((obj)->obj.getAge()<=10).findFirst().get();
-        System.out.println(p1.getAge()+ " "+p1.getName());
-        System.out.println(personList);
 
 
     }
