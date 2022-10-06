@@ -43,10 +43,55 @@ public class ArrayListStream2 {
         personList.forEach((obj)->{
             System.out.println(obj.getAge()+" "+obj.getName());
         });
+        System.out.println("afte adding.");
+        //below map is for addign +5 for all lists
+        personList.stream().map((obj)->{
+            obj.setAge(obj.getAge()+5);//adding
+            return  obj;
+        }).collect(Collectors.toList()).forEach((obj)->{
+            System.out.println(obj.getAge()+" "+obj.getName());
+        });
+        //filter with map and condition.
+        personList.stream()
+        .filter((filterList->filterList.getName().equals("person4"))).
+        filter((filterList->filterList.getAge()>10))
+                .map((obj)->{
 
-      List<Integer> ageList = personList.stream().map((obj)->obj.getAge()+5).collect(Collectors.toList());
+            obj.setName("This is person4");
+
+            return  obj;
+        }).collect(Collectors.toList()).forEach((obj)->{
+            System.out.println("map with person 4"+obj.getAge()+" "+obj.getName());
+        });;
+
+    //update the vlaue with condtion
+        personList.stream().map((obj)->{
+            obj.setAddress("new address");
+            if(obj.getName().equals("person4")){
+                obj.setName("This is person4");
+
+            }
+          return  obj;
+        }).collect(Collectors.toList()).forEach((obj)->{
+            System.out.println(obj.getAge()+" "+obj.getName()+" "+obj.getAddress());
+        });;
+
+
+
+        personList.stream().filter((filterList->filterList.getName().equals("person4"))).collect(Collectors.toList())
+                .forEach((obj)->{
+                    System.out.println(obj.getAge()+" "+obj.getName());
+                });
+
+
+
+        personList.stream().map((obj)->{
+            obj.setAge(obj.getAge()+5);//adding
+            return  obj;
+        }).collect(Collectors.toList());
         List<Integer> ageList1 = personList.stream().filter((obj)->obj.getAge()<=10).map((obj)->obj.getAge()+5).collect(Collectors.toList());
 
+        List<Integer> ageList2 = personList.stream().filter((obj)->obj.getAge()<=10).map((obj)->obj.getAge()+5).collect(Collectors.toList());
         System.out.println(ageList1);
 
 
