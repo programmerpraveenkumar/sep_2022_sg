@@ -3,13 +3,10 @@ package com.octsg.controller;
 import com.octsg.Request.AddtionRequest;
 import com.octsg.Request.UserRequest;
 import com.octsg.Response.GeneralResponse;
+import com.octsg.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
+import org.springframework.web.bind.annotation.*;
 
 /*
 //ResponseEntity.ok() --> success response with 200 status code
@@ -17,7 +14,13 @@ import java.util.HashMap;
 
  */
 @RestController
+//@RequestMapping("user")
 public class UserController {
+    @Autowired
+    UserService userService;//will create object for userservice in the controller
+            //= new UserService();
+
+
     @GetMapping("user")//this end point will match /user
     public ResponseEntity<GeneralResponse> getUser(){
         GeneralResponse response = new GeneralResponse();
@@ -25,11 +28,13 @@ public class UserController {
         return ResponseEntity.ok(response);//passing the obj wch ll convert into json response
 
     }
+
     /*
     ResponseEntity<GeneralResponse>
     ResponseEntity<?>
      */
     @GetMapping("message")//this end point will match /user
+
     public ResponseEntity<?> getMessage(){
         GeneralResponse response = new GeneralResponse();
         response.setMessage("this is for messag url");
@@ -40,11 +45,37 @@ public class UserController {
 
     }
 
+//    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("addition")
     public ResponseEntity<?> addition(@RequestBody AddtionRequest addtionRequest){
-        int res  = addtionRequest.getNum1()+addtionRequest.getNum2();
+        int res  = userService.addition(addtionRequest.getNum1(), addtionRequest.getNum2());
         GeneralResponse response = new GeneralResponse();
         response.setMessage("result is "+res);
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("user/{user_id}")
+    public ResponseEntity<?> getUser(@PathVariable Integer user_id){
+        GeneralResponse response = new GeneralResponse();
+        response.setMessage("user id is "+user_id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("user/update")
+    public ResponseEntity<?> updateUser(
+                                        @RequestBody UserRequest userRequest){
+        //call user service for update
+
+        GeneralResponse response = new GeneralResponse();
+        response.setMessage("update email is "+userRequest.getEmail());
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("user/update/{user_id}")
+    public ResponseEntity<?> updateUser(@PathVariable Integer user_id,
+                                        @RequestBody UserRequest userRequest){
+        //call user service for update
+
+        GeneralResponse response = new GeneralResponse();
+        response.setMessage("User id is  "+user_id+"update email is "+userRequest.getEmail());
         return ResponseEntity.ok(response);
     }
 
@@ -53,13 +84,33 @@ public class UserController {
 
         //arraylist with user data .
         GeneralResponse response = new GeneralResponse();
-        if(userRequest.getEmail().equals("admin@gmail.com") &&  userRequest.getPassword().equals("admin")){
-            response.setMessage("You are correct");
-            return ResponseEntity.ok(response);//200 status  code
-        }else{
-            response.setMessage("Please provide the proper email or password");
-            return ResponseEntity.badRequest().body(response);//400 status code
+        try{
+            userService.validateUserLogin(userRequest.getEmail(),userRequest.getPassword());
+            response.setMessage("you are correct");
+            return ResponseEntity.ok(response);
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
+    }
+    @PostMapping("userLoginParam")
+    public ResponseEntity<?> userlogin(@RequestParam String password,
+                                       @RequestParam String email){
+        GeneralResponse response = new GeneralResponse();
+        response.setMessage(password+" -- "+email);
+        return ResponseEntity.ok(response);
+    }
 
+    @PostMapping("userRegister")
+    public ResponseEntity<?> userRegister(){
+        GeneralResponse response = new GeneralResponse();
+        try{
+            userService.createUser();
+            response.setMessage("Register success");
+            return ResponseEntity.ok(response);
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 }

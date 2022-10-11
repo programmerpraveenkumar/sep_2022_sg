@@ -65,11 +65,19 @@ function Home(){
             console.log(res2);
         })
     }
+    const getSprinBootApiResponse = ()=>{
+        fetch("http://localhost:8080/message")
+        .then(res=>res.json())
+        .then(res2=>{
+            console.log(res2);
+        })
+    }
     const postApiResponse = ()=>{
         let param = {
             job:"sample job", //has to come from the input
             name:"sample name" //has to come from the input
         }
+        //FormData
         fetch("https://reqres.in/api/users",{
             method:"POST",
             body:JSON.stringify(param)
@@ -156,6 +164,8 @@ function Home(){
                 } */}
             </div>
             <button onClick={postApiResponse}>postApiResponse</button>
+            <button onClick={getSprinBootApiResponse}>get SprinBootApi Response</button>
+            
             <Footer/>
         </div>
     )

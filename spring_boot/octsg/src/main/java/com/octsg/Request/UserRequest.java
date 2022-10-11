@@ -1,6 +1,7 @@
 package com.octsg.Request;
 
 public class UserRequest {
+    Integer id;
     String email,password;
     public String getEmail() {
         return email;
