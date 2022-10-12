@@ -1,6 +1,5 @@
 package com.octsg.Response;
 
-import com.sun.tools.javah.Gen;
 
 public class GeneralResponse {
     String message;

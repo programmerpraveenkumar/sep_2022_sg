@@ -3,7 +3,11 @@ package com.octsg.controller;
 import com.octsg.Request.AddtionRequest;
 import com.octsg.Request.UserRequest;
 import com.octsg.Response.GeneralResponse;
+import com.octsg.model.UserModel;
 import com.octsg.services.UserService;
+import java.util.List;
+
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +29,8 @@ public class UserController {
     public ResponseEntity<GeneralResponse> getUser(){
         GeneralResponse response = new GeneralResponse();
        response.setMyName("this is for user url");
-        return ResponseEntity.ok(response);//passing the obj wch ll convert into json response
+        //return ResponseEntity.ok(response);//passing the obj wch ll convert into json response
+        return ResponseEntity.badRequest().body(response);//passing the obj wch ll convert into json response
 
     }
 
@@ -34,7 +39,6 @@ public class UserController {
     ResponseEntity<?>
      */
     @GetMapping("message")//this end point will match /user
-
     public ResponseEntity<?> getMessage(){
         GeneralResponse response = new GeneralResponse();
         response.setMessage("this is for messag url");
@@ -61,13 +65,17 @@ public class UserController {
     }
 
     @PostMapping("user/update")
-    public ResponseEntity<?> updateUser(
-                                        @RequestBody UserRequest userRequest){
-        //call user service for update
-
+    public ResponseEntity<?> updateUser( @RequestBody UserRequest userRequest){
         GeneralResponse response = new GeneralResponse();
-        response.setMessage("update email is "+userRequest.getEmail());
-        return ResponseEntity.ok(response);
+             try{
+                userService.updateUser(userRequest);
+                response.setMessage("update success");
+                return ResponseEntity.ok(response);
+            }catch (Exception e){
+                response.setMessage(e.getMessage());
+                return ResponseEntity.badRequest().body(response);
+            }
+
     }
     @PostMapping("user/update/{user_id}")
     public ResponseEntity<?> updateUser(@PathVariable Integer user_id,
@@ -78,17 +86,28 @@ public class UserController {
         response.setMessage("User id is  "+user_id+"update email is "+userRequest.getEmail());
         return ResponseEntity.ok(response);
     }
-
-    @PostMapping("userLogin")
-    public ResponseEntity<?> userlogin(@RequestBody UserRequest userRequest){
-
-        //arraylist with user data .
+    @PostMapping("user/delete/{user_id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Integer user_id){
         GeneralResponse response = new GeneralResponse();
         try{
-            userService.validateUserLogin(userRequest.getEmail(),userRequest.getPassword());
-            response.setMessage("you are correct");
+            userService.deleteUser(user_id);
+            response.setMessage("User is deleted");
             return ResponseEntity.ok(response);
         }catch (Exception e){
+            response.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+
+    }
+
+
+    @PostMapping("user/userLogin")
+    public ResponseEntity<?> userlogin(@RequestBody UserRequest userRequest){
+        try{
+            UserModel user = userService.validateUserLogin(userRequest.getEmail(),userRequest.getPassword());
+            return ResponseEntity.ok(user);
+        }catch (Exception e){
+            GeneralResponse response = new GeneralResponse();
             response.setMessage(e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }
@@ -102,13 +121,35 @@ public class UserController {
     }
 
     @PostMapping("userRegister")
-    public ResponseEntity<?> userRegister(){
+    public ResponseEntity<?> userRegister(@RequestBody UserRequest userRequest){
         GeneralResponse response = new GeneralResponse();
         try{
-            userService.createUser();
+            userService.createUser(userRequest);
             response.setMessage("Register success");
             return ResponseEntity.ok(response);
         }catch (Exception e){
+            response.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    @PostMapping("listuser")
+    public ResponseEntity<?> listuser(){
+        try{
+            List<UserModel> list = userService.listUser();
+            return ResponseEntity.ok(list);//json response will be generated from the list.
+        }catch (Exception e){
+            GeneralResponse response = new GeneralResponse();
+            response.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    @PostMapping("listuser/{user_id}")
+    public ResponseEntity<?> listuserById(@PathVariable Integer user_id){
+        try{
+           UserModel um  = userService.listUser(user_id);
+            return ResponseEntity.ok(um);//json response will be generated from the list.
+        }catch (Exception e){
+            GeneralResponse response = new GeneralResponse();
             response.setMessage(e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }

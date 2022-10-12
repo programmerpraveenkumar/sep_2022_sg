@@ -67,10 +67,19 @@ function Home(){
     }
     const getSprinBootApiResponse = ()=>{
         fetch("http://localhost:8080/message")
-        .then(res=>res.json())
+        .then(res=>{
+            if(!res.ok){
+                throw res;
+            }else{
+                res.json();
+            }
+        }
+            )
         .then(res2=>{
-            console.log(res2);
-        })
+                        console.log(res2);
+        }).catch(err=>{
+                console.log(err);
+        });
     }
     const postApiResponse = ()=>{
         let param = {
@@ -83,15 +92,23 @@ function Home(){
             body:JSON.stringify(param)
 
         })
-        .then(res=>res.json())
+        .then(res=>{
+            if(!res.ok){
+                throw res;
+            }
+            res.json()
+        }
+            )
         .then(res2=>{
             setUserList(res2['data']);//data is exist in the server response
             console.log(res2);
+        }).catch(err=>{
+            console.log(err);
         })
     }
     //()=>{}
     const btn_click=()=>{
-            console.log(email,password,mobile);//access the value from state
+            //console.log(email,password,mobile);//access the value from state
             if(email == undefined || email == ""){
                 alert("Email should not be empty");
             }
@@ -101,7 +118,36 @@ function Home(){
             else if(mobile == undefined || mobile == ""){
                 alert("mobile should not be empty");
             }else{
-                alert("everything is ok ");
+                let request = {
+                    "email":email,
+                    "password":password
+                }
+               fetch("http://localhost:8080/user/userLogin",{
+                method:"POST",
+                body:JSON.stringify(request),
+                headers:{
+                    "content-type":"application/json"
+                }
+               })
+               .then(
+                res=>{
+                    ///below is other 200
+                    if(!res.ok){
+                            throw res;//if 400 response came,go to catch block.
+                    }else{
+                        res.json().then(res2=>{
+                            console.log(res2) 
+                        });
+                    }
+                   
+                }
+                ).catch(err=>{
+                    err.json().then(e=>{
+                        //console.log(e)
+                        alert(e.message);
+                    })
+                    //console.log(err);
+                })
             }
     }
     const text_change=(input_obj)=>{
@@ -142,7 +188,7 @@ function Home(){
             <input value={email} onChange={(e)=>setEmail(e.target.value)} type="text" placeholder="Enter Email"/>
             <input onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="Enter Password"/>
             <input onChange={(e)=>setMobile(e.target.value)} type="mobile_no" placeholder="ENter Mobile NO" />
-            <button onClick={btn_click}>Click me</button>
+            <button onClick={btn_click}>Click to check login</button>
             <h1>{email}{password}</h1>
             <select onChange={(e)=>getApiResponse(e.target.value)}>
                 <option value="1"> Page 1</option>
@@ -165,6 +211,7 @@ function Home(){
             </div>
             <button onClick={postApiResponse}>postApiResponse</button>
             <button onClick={getSprinBootApiResponse}>get SprinBootApi Response</button>
+
             
             <Footer/>
         </div>
