@@ -4,8 +4,11 @@ package com.octsg.services;
 import com.octsg.Repo.UserRepo;
 import com.octsg.Request.UserRequest;
 import com.octsg.model.UserModel;
+
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +25,26 @@ public class UserService {
 
     public UserModel validateUserLogin(String email,String password)throws  Exception{
         UserModel user =  userRepo.getUserByEmailAndPassword(email,password).orElseThrow(()->new Exception("Please provide the username and password"));
+        String token = getTOkenForEmail(user.getEmail());
+        updateToken(token,user.getId());//update token with value for successful login in the databse
+        user.setToken(token);//update the the token in   the model.
         return  user;
     }
+    public boolean logout(int user_id) throws  Exception{
+        updateToken("",user_id);//update token is empty for logout
+        return  true;
+    }
+
+    private  void updateToken(String token ,int userId){
+        userRepo.updateTokenForUserId(token,userId);//update the value in the databse against the user.
+    }
+
+    private String  getTOkenForEmail(String email) {
+        String emailEncoded = Base64.getEncoder().encode(email.getBytes()).toString();
+        String token = emailEncoded + System.currentTimeMillis();
+        return token;
+    }
+
 
     public boolean createUser(UserRequest userRequest) throws  Exception{
         try{
@@ -107,6 +128,15 @@ public class UserService {
         return userRepo.findAll();//get all the data from the userModel table.
 
 
+    }
+
+    public boolean validateToken(String token,Integer userId) throws  Exception{
+            UserModel user = listUser(userId);//get the user details by the userid
+            if(user.getToken().equals(token)){
+                return  true;
+            }else{
+                throw new Exception("token mismatch");
+            }
     }
     public  UserModel listUser(Integer userId) throws  Exception {
         Optional<UserModel> userModel = userRepo.findById(userId);//get the data bases on primary key

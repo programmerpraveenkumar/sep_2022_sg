@@ -150,6 +150,27 @@ function Home(){
                 })
             }
     }
+    
+    const testHeader=()=>{
+        //console.log(email,password,mobile);//access the value from state
+   
+           fetch("http://localhost:8080/user/tokencheck",{
+            method:"POST",
+            body:JSON.stringify({}),
+            headers:{
+                "content-type":"application/json",
+                "token":"sample toekn",
+                "user_id":"sample userId"
+            }
+           })
+           .then(
+            res=>{
+                    res.json().then(res2=>{
+                        console.log(res2) 
+                    });
+                })
+        }
+
     const text_change=(input_obj)=>{
         //let val = input_obj.target.value;//get the value from the input.
         //console.log("calling.",val);
@@ -211,6 +232,7 @@ function Home(){
             </div>
             <button onClick={postApiResponse}>postApiResponse</button>
             <button onClick={getSprinBootApiResponse}>get SprinBootApi Response</button>
+            <button onClick={testHeader}>testHeader</button>
 
             
             <Footer/>

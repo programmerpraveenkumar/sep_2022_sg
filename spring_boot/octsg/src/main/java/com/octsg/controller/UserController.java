@@ -53,8 +53,10 @@ public class UserController {
     @PostMapping("addition")
     public ResponseEntity<?> addition(@RequestBody AddtionRequest addtionRequest){
         int res  = userService.addition(addtionRequest.getNum1(), addtionRequest.getNum2());
+        System.out.println("inside addition.");
         GeneralResponse response = new GeneralResponse();
         response.setMessage("result is "+res);
+        System.out.println("end of the controller");
         return ResponseEntity.ok(response);
     }
     @GetMapping("user/{user_id}")
@@ -112,6 +114,17 @@ public class UserController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+    @PostMapping("user/tokencheck")
+    public ResponseEntity<?> tokencheck( @RequestHeader String token,@RequestHeader String user_id){
+        try{
+            System.out.println("token is "+token+" user_id"+user_id);
+            return ResponseEntity.ok(token);
+        }catch (Exception e){
+            GeneralResponse response = new GeneralResponse();
+            response.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
     @PostMapping("userLoginParam")
     public ResponseEntity<?> userlogin(@RequestParam String password,
                                        @RequestParam String email){
@@ -135,6 +148,7 @@ public class UserController {
     @PostMapping("listuser")
     public ResponseEntity<?> listuser(){
         try{
+
             List<UserModel> list = userService.listUser();
             return ResponseEntity.ok(list);//json response will be generated from the list.
         }catch (Exception e){
@@ -143,10 +157,22 @@ public class UserController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-    @PostMapping("listuser/{user_id}")
-    public ResponseEntity<?> listuserById(@PathVariable Integer user_id){
+    @PostMapping("user/logout/{userId}")
+    public ResponseEntity<?> listuser(@PathVariable Integer userId){
+        GeneralResponse  response = new GeneralResponse();
         try{
-           UserModel um  = userService.listUser(user_id);
+            userService.logout(userId);
+            response.setMessage("Logout successful");
+            return ResponseEntity.ok(response);//json response will be generated from the list.
+        }catch (Exception e){
+            response.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    @PostMapping("listuser/{user_tmp_id}")
+    public ResponseEntity<?> listuserById(@PathVariable Integer user_tmp_id){
+        try{
+           UserModel um  = userService.listUser(user_tmp_id);
             return ResponseEntity.ok(um);//json response will be generated from the list.
         }catch (Exception e){
             GeneralResponse response = new GeneralResponse();

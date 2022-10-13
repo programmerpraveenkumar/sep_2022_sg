@@ -19,6 +19,16 @@ public class UserModel {
     String name;
     String email;
     String mobile;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    String token;
     @JsonIgnore//will not share as response.but can be used for setting the vlaue.
     String password;
     public String getPassword() {
