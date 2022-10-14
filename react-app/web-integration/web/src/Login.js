@@ -25,7 +25,8 @@ function Login() {
         method:"post",
         body:JSON.stringify(req),
         headers:{
-            "content-type":"application/json"
+            "Content-Type":"application/json"
+         
         }
         
       })

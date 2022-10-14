@@ -1,8 +1,6 @@
 package com.octsg.Configuration;
 
 import com.octsg.services.UserService;
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,6 +8,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Configuration
 public class TokenInterceptor implements HandlerInterceptor {
@@ -21,12 +22,18 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try{
             String current_url = request.getRequestURL().toString();
-            System.out.println("current url "+current_url);
+            System.out.println("current url "+current_url+" method is "+request.getMethod());
+            if(request.getMethod().equals("OPTIONS")){
+                return true;
+            }
+
             if(current_url.endsWith("userLogin") || current_url.contains("readImage")){
                 System.out.println("excluding the url "+current_url);
                 return  true;//for login method no need to check the token and user id
             }
-            System.out.println(request);
+
+
+
             String token = request.getHeader("token");//access the toekn from the request
             String userId = request.getHeader("userId");//access the userId from the request
             System.out.println(token+" "+userId);

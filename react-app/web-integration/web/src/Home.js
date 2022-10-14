@@ -11,15 +11,17 @@ function Home() {
    const getApiResponse=(pageNo)=>{
       let userId = localStorage.getItem("userId"); 
       let token = localStorage.getItem("token"); 
-      fetch("http://localhost:8080/user/listuser",{
-         method:"post",
+      fetch("http://localhost:8080/listuser",{
+         method:"POST",
          headers:{
-            "Content-Type":"application/json"
+            "content-type":"application/json",
+            "token":token,
+            "userId":userId
          }
       })
       .then(res=>res.json())
       .then(ress2=>{
-         serUserList(ress2['data']);
+         serUserList(ress2);
       })
    }
    useEffect(()=>getApiResponse(1),[])
@@ -32,7 +34,7 @@ function Home() {
   return (
    <>
    <Header/>
-   <img src="http://localhost:8080/readImage/Screenshot_1610629400.png"/>
+   {/* <img src="http://localhost:8080/readImage/Screenshot_1610629400.png"/> */}
    <section class="banner_main">
          <div id="banner1" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -131,15 +133,9 @@ function Home() {
                      )
                   })
                }
-              
-              <select onChange={(e)=>getApiResponse(e.target.value)}>
-               <option value="1"> page 1</option>
-               <option value="2"> page 2</option>
-               <option value="3"> page 3</option>
-
-              </select>
+             
               {
-                  userList.map((obj,index)=>{
+                  userList && userList.map((obj,index)=>{
                      return(
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="glasses_box">
