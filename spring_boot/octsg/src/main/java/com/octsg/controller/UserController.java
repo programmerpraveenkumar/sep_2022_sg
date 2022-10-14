@@ -5,12 +5,18 @@ import com.octsg.Request.UserRequest;
 import com.octsg.Response.GeneralResponse;
 import com.octsg.model.UserModel;
 import com.octsg.services.UserService;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
-import org.apache.catalina.User;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /*
 //ResponseEntity.ok() --> success response with 200 status code
@@ -20,6 +26,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 //@RequestMapping("user")
 public class UserController {
+    String folderPath = "/Volumes/softwares/projects/upload_folder/";
+    @Autowired
+    Environment environment;
     @Autowired
     UserService userService;//will create object for userservice in the controller
             //= new UserService();
@@ -28,7 +37,7 @@ public class UserController {
     @GetMapping("user")//this end point will match /user
     public ResponseEntity<GeneralResponse> getUser(){
         GeneralResponse response = new GeneralResponse();
-       response.setMyName("this is for user url");
+       response.setMyName("this is for user url--"+environment.getProperty("COUNTRY_CODE"));
         //return ResponseEntity.ok(response);//passing the obj wch ll convert into json response
         return ResponseEntity.badRequest().body(response);//passing the obj wch ll convert into json response
 
@@ -125,6 +134,30 @@ public class UserController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @PostMapping(value = "imageupload")
+    public ResponseEntity<?> imageupload(@RequestParam String userId, @RequestParam  MultipartFile file) throws Exception {
+        System.out.println(file.getName());
+        GeneralResponse response = new GeneralResponse();
+        response.setMessage("FIle upload success.."+file.getOriginalFilename());
+        //write the file inthe  server location.
+        FileOutputStream out = new FileOutputStream(folderPath+file.getOriginalFilename());
+        out.write(file.getBytes());
+        //call service method with user_id and image name for update
+        return ResponseEntity.ok(response);
+
+    }
+
+
+    @GetMapping(
+            value = "readImage/{fileName}",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
+    )
+    public byte[] image(@PathVariable String fileName) throws Exception {
+        FileInputStream input = new FileInputStream(folderPath+fileName);
+        return IOUtils.toByteArray(input);
+
+    }
     @PostMapping("userLoginParam")
     public ResponseEntity<?> userlogin(@RequestParam String password,
                                        @RequestParam String email){
@@ -134,16 +167,13 @@ public class UserController {
     }
 
     @PostMapping("userRegister")
-    public ResponseEntity<?> userRegister(@RequestBody UserRequest userRequest){
+    public ResponseEntity<?> userRegister(@RequestBody UserRequest userRequest) throws  Exception{
         GeneralResponse response = new GeneralResponse();
-        try{
+
             userService.createUser(userRequest);
             response.setMessage("Register success");
             return ResponseEntity.ok(response);
-        }catch (Exception e){
-            response.setMessage(e.getMessage());
-            return ResponseEntity.badRequest().body(response);
-        }
+
     }
     @PostMapping("listuser")
     public ResponseEntity<?> listuser(){
@@ -170,14 +200,9 @@ public class UserController {
         }
     }
     @PostMapping("listuser/{user_tmp_id}")
-    public ResponseEntity<?> listuserById(@PathVariable Integer user_tmp_id){
-        try{
+    public ResponseEntity<?> listuserById(@PathVariable Integer user_tmp_id) throws  Exception{
            UserModel um  = userService.listUser(user_tmp_id);
-            return ResponseEntity.ok(um);//json response will be generated from the list.
-        }catch (Exception e){
-            GeneralResponse response = new GeneralResponse();
-            response.setMessage(e.getMessage());
-            return ResponseEntity.badRequest().body(response);
-        }
+           return ResponseEntity.ok(um);//json response will be generated from the list.
+
     }
 }

@@ -9,7 +9,14 @@ function Home() {
    
 
    const getApiResponse=(pageNo)=>{
-      fetch("https://reqres.in/api/users?page="+pageNo)
+      let userId = localStorage.getItem("userId"); 
+      let token = localStorage.getItem("token"); 
+      fetch("http://localhost:8080/user/listuser",{
+         method:"post",
+         headers:{
+            "Content-Type":"application/json"
+         }
+      })
       .then(res=>res.json())
       .then(ress2=>{
          serUserList(ress2['data']);
@@ -25,7 +32,7 @@ function Home() {
   return (
    <>
    <Header/>
-
+   <img src="http://localhost:8080/readImage/Screenshot_1610629400.png"/>
    <section class="banner_main">
          <div id="banner1" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -136,8 +143,8 @@ function Home() {
                      return(
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="glasses_box">
-                           <figure><img src={obj.avatar} alt="#"/></figure>
-                           <h3><span class="blu"></span>{obj.first_name}</h3>
+                          
+                           <h3><span class="blu"></span>{obj.name}</h3>
                            <p>{obj.email}</p>
                         </div>
                      </div>

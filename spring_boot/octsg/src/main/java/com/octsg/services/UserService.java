@@ -1,31 +1,39 @@
 package com.octsg.services;
 
 
+import com.octsg.Configuration.CustomException;
 import com.octsg.Repo.UserRepo;
 import com.octsg.Request.UserRequest;
 import com.octsg.model.UserModel;
 
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.security.Key;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import io.jsonwebtoken.Jws;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import javax.crypto.spec.SecretKeySpec;
 
 @Service
 public class UserService {
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    Environment environment;
     public int addition(int a, int b){
             return a+b;
     }
 
     public UserModel validateUserLogin(String email,String password)throws  Exception{
         UserModel user =  userRepo.getUserByEmailAndPassword(email,password).orElseThrow(()->new Exception("Please provide the username and password"));
-        String token = getTOkenForEmail(user.getEmail());
+        String token = getTOkenForEmail(user);
         updateToken(token,user.getId());//update token with value for successful login in the databse
         user.setToken(token);//update the the token in   the model.
         return  user;
@@ -39,10 +47,27 @@ public class UserService {
         userRepo.updateTokenForUserId(token,userId);//update the value in the databse against the user.
     }
 
-    private String  getTOkenForEmail(String email) {
-        String emailEncoded = Base64.getEncoder().encode(email.getBytes()).toString();
-        String token = emailEncoded + System.currentTimeMillis();
-        return token;
+    private String  getTOkenForEmail(UserModel user) {
+        Calendar c = Calendar.getInstance(); // starts with today's date and time
+       // c.add(Calendar.DAY_OF_YEAR, 2);  // advances day by 2
+            //c.add(Calendar.HOUR_OF_DAY, 10);
+            c.add(Calendar.DAY_OF_YEAR,10);
+       // c.add(Calendar.SECOND, 5);//set the time
+        String jwtToken = Jwts.builder()
+                .claim("email", user.getEmail())
+                .setSubject(user.getName())
+                .setId(""+user.getId())
+                .setIssuedAt(new Date())
+                .setExpiration(c.getTime())
+               .signWith(SignatureAlgorithm.HS512, environment.getProperty("JWT_SECRET"))
+                .compact();
+        return jwtToken;
+    }
+
+    public boolean checkJWTToken(String token) throws  CustomException{
+        Jwts.parser().setSigningKey(environment.getProperty("JWT_SECRET")).parseClaimsJws(token);
+        //Jwts.parser().parseClaimsJws(token);
+        return true;
     }
 
 
@@ -71,6 +96,7 @@ public class UserService {
         userRepo.delete(userModelTmp);
         return  true;
     }
+
     public boolean updateUser(UserRequest userRequest) throws  Exception{
         try{
             //java 8 optional
@@ -91,7 +117,7 @@ public class UserService {
                 userRepo.save(userModelTmp);//update the data as it has Primary key
                return true;
             }else{
-                throw  new Exception("user is not found");
+                throw  new CustomException("user is not found");
             }
 
             /*
@@ -135,7 +161,7 @@ public class UserService {
             if(user.getToken().equals(token)){
                 return  true;
             }else{
-                throw new Exception("token mismatch");
+                throw new CustomException("token mismatch");
             }
     }
     public  UserModel listUser(Integer userId) throws  Exception {
@@ -144,7 +170,7 @@ public class UserService {
         if(userModel.isPresent()){
             return userModel.get();//get the usermodel the optional's userModel.
         }else{
-            throw  new Exception("user is not found");
+            throw  new CustomException("user is not found(list user)");
         }
 
     }

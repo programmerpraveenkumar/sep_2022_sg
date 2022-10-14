@@ -1,6 +1,7 @@
 package com.octsg.Configuration;
 
 import com.octsg.services.UserService;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -15,30 +16,39 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Autowired
     UserService userService;
-    //before goes to the contoller
+    //before goes to the controller
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        try{
+            String current_url = request.getRequestURL().toString();
+            System.out.println("current url "+current_url);
+            if(current_url.endsWith("userLogin") || current_url.contains("readImage")){
+                System.out.println("excluding the url "+current_url);
+                return  true;//for login method no need to check the token and user id
+            }
+            System.out.println(request);
+            String token = request.getHeader("token");//access the toekn from the request
+            String userId = request.getHeader("userId");//access the userId from the request
+            System.out.println(token+" "+userId);
+            if(token == null || token.equals("")){
+                System.out.println("token is null");
+                throw new CustomException("please send the token");
+            }
+            if(userId == null ||userId.equals("")){
+                System.out.println("userId is null");
+                throw new CustomException("please send the userId");
+            }
+            Integer int_user_id = Integer.parseInt(userId);//conver the string to int;
+            userService.checkJWTToken(token);
+            ////failure will throw the exception.
+            if(userService.validateToken(token,int_user_id)){
+                return true;//goes to controller
+            }else {
+                return false;//will stop here.
+            }
 
-        String current_url = request.getRequestURL().toString();
-        System.out.println("current url "+current_url);
-        if(current_url.endsWith("userLogin")){
-            System.out.println("excluding the url "+current_url);
-            return  true;//for login method no need to check the token and user id
-        }
-        String token = request.getHeader("token");//access the toekn from the request
-        String userId = request.getHeader("userId");//access the userId from the request
-        Integer int_user_id = Integer.parseInt(userId);//conver the string to int;
-        if(token.equals("")){
-            throw new Exception("please send the token");
-        }
-        if(userId.equals("")){
-            throw new Exception("please send the userId");
-        }
-        ////failure will throw the exception.
-        if(userService.validateToken(token,int_user_id)){
-            return true;//goes to controller
-        }else {
-            return false;//will stop here.
+        }catch (Exception e){
+            throw new CustomException(e.getMessage());
         }
 
 
