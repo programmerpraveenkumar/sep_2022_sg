@@ -3,11 +3,13 @@ import './App.css';
 import Header from './Header';
 import Footer from './Footer';
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { httpPostWithoutHeader } from './HTTPFetch';
 
 function Login() {
    const[userEmail,setUserEmail] = useState();
    const[password,setPassword] = useState();
-   
+   let navigate = useNavigate(); 
 
    const loginApi=()=>{
     if(userEmail == ""){
@@ -21,15 +23,7 @@ function Login() {
         "email":userEmail,
         "password":password
         }
-      fetch("http://localhost:8080/user/userLogin",{
-        method:"post",
-        body:JSON.stringify(req),
-        headers:{
-            "Content-Type":"application/json"
-         
-        }
-        
-      })
+        httpPostWithoutHeader("user/userLogin",req)
       .then(res=>{
         if(!res.ok){
             throw res
@@ -38,6 +32,7 @@ function Login() {
             localStorage.setItem("full_response",JSON.stringify(res));
             localStorage.setItem("token",res['token']);
             localStorage.setItem("userId",res['id']);
+            navigate("/home");
             console.log(res);
         })
 
@@ -51,7 +46,7 @@ function Login() {
    
   return (
    <>
-   <Header/>
+   <Header isLoginPage="true"/>
 
       
       
@@ -67,10 +62,10 @@ function Login() {
                            <h3>Login</h3>
                         </div>
                         <div class="col-md-12">
-                           <input  onChange={(e=>setUserEmail(e.target.value))} class="contactus" placeholder="Email" type="type" name="Email"/>                          
+                           <input  onChange={(e=>setUserEmail(e.target.value))} class="contactus" placeholder="Enter Email" type="type" name="Email"/>                          
                         </div>
                         <div class="col-md-12">
-                           <input class="contactusmess"onChange={(e=>setPassword(e.target.value))}  placeholder="Message" type="type" Message="Name"/>
+                           <input class="contactusmess"onChange={(e=>setPassword(e.target.value))}  placeholder="Enter Password" type="type" Message="Name"/>
                         </div>
                         <div class="col-md-12">
                            <input type="button" class="send_btn" onClick={loginApi} value="Login"/>

@@ -3,28 +3,51 @@ import './App.css';
 import Header from './Header';
 import Footer from './Footer';
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { httpPostWithHeader } from './HTTPFetch';
 
 function Home() {
    const[userList,serUserList] = useState([]);
    
+   let navigate = useNavigate(); 
 
    const getApiResponse=(pageNo)=>{
-      let userId = localStorage.getItem("userId"); 
-      let token = localStorage.getItem("token"); 
-      fetch("http://localhost:8080/listuser",{
-         method:"POST",
-         headers:{
-            "content-type":"application/json",
-            "token":token,
-            "userId":userId
-         }
-      })
-      .then(res=>res.json())
-      .then(ress2=>{
-         serUserList(ress2);
+     
+      httpPostWithHeader("listuser",{})
+      .then(res=>{
+            if(!res.ok){
+               throw res;
+            }
+             return res.json();
+            }
+         )
+         .then(ress2=>{
+               serUserList(ress2);
+         }).catch(e=>{
+
+         e.json().then(er=>{
+            console.log("Eror while fechging the records",er)
+            alert("Eror while fechging the records");
+         });
+         
       })
    }
-   useEffect(()=>getApiResponse(1),[])
+   const checkLoginToken=()=>{
+         let token = localStorage.getItem("token");
+         if(token == undefined || token == ""){
+            return false;
+         }
+         return true;
+   }
+   useEffect(()=>{
+      if(checkLoginToken()){
+         getApiResponse(1);
+      }else{
+         navigate("/login");//will navigate to the login page.
+        // alert("Token is empty..Please go to login page");
+         //will navigate to the login page
+      }
+      },[])
    const [glassList,setGlassList] = useState([
       {"name":"sun glass1","price":"5034"},{"name":"sun glass2","price":"52"},
       {"name":"sun glass3","price":"50345"},{"name":"sun glass4","price":"55"},

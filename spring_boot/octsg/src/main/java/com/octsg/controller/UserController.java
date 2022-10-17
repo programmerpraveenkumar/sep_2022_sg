@@ -1,21 +1,31 @@
 package com.octsg.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.octsg.Request.AddtionRequest;
 import com.octsg.Request.UserRequest;
 import com.octsg.Response.GeneralResponse;
+import com.octsg.Response.UserApiResponse;
 import com.octsg.model.UserModel;
 import com.octsg.services.UserService;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.List;
 
+import jdk.nashorn.internal.parser.JSONParser;
+import net.minidev.json.JSONArray;
+import org.json.*;
+import net.minidev.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 /*
@@ -31,6 +41,9 @@ public class UserController {
     Environment environment;
     @Autowired
     UserService userService;//will create object for userservice in the controller
+
+    @Autowired
+    RestTemplate restTemplate;
             //= new UserService();
 
 
@@ -160,7 +173,7 @@ public class UserController {
     }
     @PostMapping("userLoginParam")
     public ResponseEntity<?> userlogin(@RequestParam String password,
-                                       @RequestParam String email){
+                                       @RequestParam String email,@RequestHeader String token){
         GeneralResponse response = new GeneralResponse();
         response.setMessage(password+" -- "+email);
         return ResponseEntity.ok(response);
@@ -203,6 +216,35 @@ public class UserController {
     public ResponseEntity<?> listuserById(@PathVariable Integer user_tmp_id) throws  Exception{
            UserModel um  = userService.listUser(user_tmp_id);
            return ResponseEntity.ok(um);//json response will be generated from the list.
+
+    }
+    @GetMapping("listuserapi")
+    public ResponseEntity<?> getuserListFromApi() throws  Exception{
+        try{
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+            headers.add("user-agent", "Application");
+            //headers.add("auth_token", "fgfgdfg");//custom token
+            HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+            UserApiResponse response = restTemplate.exchange("https://reqres.in/api/users?page=2", HttpMethod.GET, entity, UserApiResponse.class).getBody();
+            String res = restTemplate.exchange("https://reqres.in/api/users?page=2", HttpMethod.GET, entity, String.class).getBody();
+
+            Gson g = new Gson();
+  //          JSONObject p = g.fromJson(res, JSONObject.class);
+//            p.get("total");
+       //     JSONArray ar = (JSONArray) p.get("data");
+//            ((JSONArray) p.get("data")).get(0)
+
+
+
+
+            System.out.println(response.getData());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok("sample response");
 
     }
 }

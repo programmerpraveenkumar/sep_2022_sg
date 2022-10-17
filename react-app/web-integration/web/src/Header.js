@@ -1,8 +1,57 @@
 import logo from './logo.svg';
 import './App.css';
 import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
-function Header() {
+function Header(props) {
+   const[isLoggedIn,setIsLoggedIn] = useState(false);
+   let navigate = useNavigate(); 
+
+   const checkLoginToken=()=>{
+      let token = localStorage.getItem("token");
+      if(token == undefined || token == ""){
+         setIsLoggedIn(false);
+      }else{
+         setIsLoggedIn(true);
+      }
+   }
+   const logout_api=()=>{
+      let userId = localStorage.getItem("userId"); 
+      let token = localStorage.getItem("token"); 
+      fetch("http://localhost:8080/user/logout/"+userId,{
+         method:"POST",
+         headers:{
+            "content-type":"application/json",
+            "token":token,
+            "userId":userId
+         }
+      })
+      .then(res=>{
+            if(!res.ok){
+               throw res;
+            }
+             return res.json();
+            }
+         )
+         .then(ress2=>{
+              //clear the toekn and navigate to login page  after success logout
+              localStorage.removeItem("token");
+              localStorage.removeItem("userId");
+              localStorage.removeItem("full_response");
+              navigate("/login");
+              
+
+         }).catch(e=>{
+
+         e.json().then(er=>{
+            console.log("Eror while fechging the records",er)
+            alert("Eror while fechging the records");
+         });
+         
+      })
+   }
+   useEffect(checkLoginToken,[]);//will be trigger during the page for tokenvalidation.
   return (
     <header>
    
@@ -25,9 +74,11 @@ function Header() {
                    </button>
                    <div className="collapse navbar-collapse" id="navbarsExample04">
                       <ul className="navbar-nav mr-auto">
-                         <li className="nav-item active">
+                        {/* hide the home menu for login page */}
+                        {!props.isLoginPage?<><li className="nav-item active">
                             <NavLink className="nav-link" to="/home" >Home</NavLink>
-                         </li>
+                         </li></>:null}
+                         
                          <li className="nav-item">
                             <NavLink className="nav-link" to="/about" >About</NavLink>
                          </li>
@@ -40,12 +91,18 @@ function Header() {
                          <li className="nav-item">
                             <a className="nav-link" href="contact.html">Contact Us</a>
                          </li>
+                         {isLoggedIn?<>
+                         <li onClick={logout_api} className="nav-item d_none login_btn">
+                            <a className="nav-link" href="#">Logout</a>
+                         </li></>:null}
+                         {!isLoggedIn?<>
                          <li className="nav-item d_none login_btn">
                             <a className="nav-link" href="#">Login</a>
                          </li>
                          <li className="nav-item d_none">
                             <a className="nav-link" href="#">Register</a>
-                         </li>
+                         </li></>
+                         :null}
                          <li className="nav-item d_none sea_icon">
                             <a className="nav-link" href="#"><i className="fa fa-shopping-bag" aria-hidden="true"></i><i className="fa fa-search" aria-hidden="true"></i></a>
                          </li>
