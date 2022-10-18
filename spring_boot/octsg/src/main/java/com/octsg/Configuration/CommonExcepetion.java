@@ -33,6 +33,15 @@ public class CommonExcepetion {
         res.setMessage(e.getMessage());
         return ResponseEntity.badRequest().body(res);
     }
+//    @ExceptionHandler(TokenCustomException.class)//belwo method for handling exception.class from the spring boot application.
+//    public ResponseEntity<?> handleTokenException(CustomException e){
+//        //send the error to client's mail
+//        //store the error for audit in the database.
+//        // System.out.println("inside handle excpetion(ExceptionHandler) "+e.getMessage());
+//        GeneralResponse res = new GeneralResponse();
+//        res.setMessage(e.getMessage());
+//        //return ResponseEntity.body(res);
+//    }
 
 
 }

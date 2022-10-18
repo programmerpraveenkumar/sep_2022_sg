@@ -9,6 +9,8 @@ import { httpPostWithoutHeader } from './HTTPFetch';
 function Login() {
    const[userEmail,setUserEmail] = useState();
    const[password,setPassword] = useState();
+   const[loginstatus,setloginstatus] = useState(false);
+   const[loginData,setLoginData] = useState(false);
    let navigate = useNavigate(); 
 
    const loginApi=()=>{
@@ -28,6 +30,7 @@ function Login() {
         if(!res.ok){
             throw res
         }
+        //let statuscode = res.statuscode;
         res.json().then(res=>{
             localStorage.setItem("full_response",JSON.stringify(res));
             localStorage.setItem("token",res['token']);
@@ -35,7 +38,6 @@ function Login() {
             navigate("/home");
             console.log(res);
         })
-
       }
         ).catch(err=>{
             alert("Error while login");
@@ -46,11 +48,7 @@ function Login() {
    
   return (
    <>
-   <Header isLoginPage="true"/>
-
-      
-      
-     
+   <Header   isLoginPage="true"/>
       
       <div id="contact" class="contact">
          <div class="container">
@@ -82,6 +80,7 @@ function Login() {
             </div>
          </div>
       </div>
+      {loginstatus?"successful login":null}
    <Footer/>
    </>
   );

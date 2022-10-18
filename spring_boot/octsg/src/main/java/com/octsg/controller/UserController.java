@@ -185,7 +185,8 @@ public class UserController {
 
             userService.createUser(userRequest);
             response.setMessage("Register success");
-            return ResponseEntity.ok(response);
+            //return ResponseEntity.ok(response,201);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
     @PostMapping("listuser")
@@ -197,7 +198,9 @@ public class UserController {
         }catch (Exception e){
             GeneralResponse response = new GeneralResponse();
             response.setMessage(e.getMessage());
+           // ResponseEntity.badRequest()
             return ResponseEntity.badRequest().body(response);
+
         }
     }
     @PostMapping("user/logout/{userId}")

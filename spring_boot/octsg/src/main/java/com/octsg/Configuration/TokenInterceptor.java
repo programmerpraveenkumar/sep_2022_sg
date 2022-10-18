@@ -39,11 +39,11 @@ public class TokenInterceptor implements HandlerInterceptor {
             System.out.println(token+" "+userId);
             if(token == null || token.equals("")){
                 System.out.println("token is null");
-                throw new CustomException("please send the token");
+                throw new TokenCustomException("please send the token");
             }
             if(userId == null ||userId.equals("")){
                 System.out.println("userId is null");
-                throw new CustomException("please send the userId");
+                throw new TokenCustomException("please send the userId");
             }
             Integer int_user_id = Integer.parseInt(userId);//conver the string to int;
             userService.checkJWTToken(token);
