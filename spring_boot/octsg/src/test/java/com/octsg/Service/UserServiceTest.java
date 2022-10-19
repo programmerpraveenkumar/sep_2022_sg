@@ -1,60 +1,58 @@
 package com.octsg.Service;
 
+
  import com.octsg.Repo.UserRepo;
  import com.octsg.Request.UserRequest;
  import com.octsg.model.UserModel;
  import com.octsg.services.UserService;
+
+ import io.jsonwebtoken.Jwts;
+ import io.jsonwebtoken.SignatureAlgorithm;
+ import org.junit.Before;
  import org.junit.jupiter.api.BeforeEach;
- import org.junit.jupiter.api.DisplayNameGeneration;
- import org.junit.jupiter.api.DisplayNameGenerator;
  import org.junit.jupiter.api.extension.ExtendWith;
- import org.junit.runner.RunWith;
+
  import org.mockito.InjectMocks;
  import org.mockito.Mock;
+ import org.mockito.Mockito;
+ import org.mockito.Spy;
  import org.mockito.junit.jupiter.MockitoExtension;
- import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
  import static org.junit.Assert.assertEquals;
- import static org.junit.Assert.assertTrue;
- import static org.mockito.Mockito.*;
- import static org.assertj.core.api.Assertions.assertThat;
- import org.junit.jupiter.api.BeforeEach;
- import org.junit.jupiter.api.DisplayName;
- import org.junit.jupiter.api.Test;
- import org.junit.jupiter.api.extension.ExtendWith;
-
- import static org.mockito.ArgumentMatchers.any;
  import static org.mockito.BDDMockito.given;
- import static org.mockito.BDDMockito.willDoNothing;
- import static org.mockito.Mockito.*;
+ import static org.mockito.Mockito.lenient;
+ import static org.mockito.Mockito.when;
 
- import org.mockito.InjectMocks;
- import org.mockito.Mock;
- import org.mockito.junit.jupiter.MockitoExtension;
+ import org.junit.jupiter.api.Test;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.core.env.Environment;
+ import org.springframework.test.util.ReflectionTestUtils;
 
- import java.util.Arrays;
- import java.util.Collections;
- import java.util.List;
+ import java.util.Calendar;
+ import java.util.Date;
  import java.util.Optional;
+
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
+    @Mock
+    Environment environment;
+
+
     @InjectMocks
     private UserService userService;
-
     @Mock
     private UserRepo userRepo;
+
     private  UserModel userModel;
     @BeforeEach
     public void setup(){
-        //employeeRepository = Mockito.mock(EmployeeRepository.class);
-        //employeeService = new EmployeeServiceImpl(employeeRepository);
-        userModel = UserModel.builder()
-                .id(1)
-                .email("test@gmail.com")
-                .name("test")
-                .mobile("123456")
-                .build();
+        userModel = UserModel.builder().id(1).name("name").mobile("4545").email("test@gmail.com").token("some token").build();
+    }
+    @Before
+    public void before() {
+
+
     }
 
     @Test
@@ -64,41 +62,34 @@ public class UserServiceTest {
     }
 
     @Test
-    void listUserTest() throws Exception {
-        UserModel userModel1 = UserModel.builder()
-                .id(2)
-                .email("test1@gmail.com")
-                .name("test1")
-                .mobile("1234561")
-                .build();
-        given(userRepo.findAll()).willReturn(Arrays.asList(userModel1,userModel));
-        List<UserModel> userList = userService.listUser();
-        assertThat(userList).isNotNull();
-        assertThat(userList.size()).isEqualTo(2);
+    void validateUserLoginTest() throws  Exception{
 
+        //UserModel userModel = UserModel.builder().id(1).name("name").mobile("4545").email("test@gmail.com").build();
+        Mockito.when(environment.getProperty("JWT_SECRET")).thenReturn("SECRET");
+        UserRequest req = new UserRequest();
+        req.setPassword("4545");
+        req.setEmail("test@gmail.com");
+        when(userRepo.getUserByEmailAndPassword(req.getEmail(),req.getPassword())).thenReturn(Optional.of(userModel));
+        lenient().when( userRepo.updateTokenForUserId(userModel.getToken(),userModel.getId())).thenReturn(1);
+       UserModel afterlogin = userService.validateUserLogin(req.getEmail(),req.getPassword());
+        assertEquals(afterlogin.getEmail(),req.getEmail());
     }
+
     @Test
-    void listUserIdTest() throws Exception {
-
-        given(userRepo.findById(1)).willReturn(Optional.of(userModel));
-        UserModel userList = userService.listUser(1);
-        assertThat(userList).isNotNull();
-        assertThat(userList.getName()).isEqualTo("test");
-        assertThat(userList.getEmail()).isEqualTo("test@gmail.com");
-        assertThat(userList.getMobile()).isEqualTo("123456");
+    void createUserTest() throws  Exception{
+       // UserModel userModel = UserModel.builder().id(1).name("name").mobile("45454").email("test@gmail.com").password("4545").build();
+        UserRequest req = new UserRequest();
+        req.setPassword("4545");
+        req.setEmail("test@gmail.com");
+        req.setName("test");
+        req.setMobile("45454");
+        when(userRepo.getUserByEmail(userModel.getEmail())).thenReturn(Optional.empty());
+        lenient().when(userRepo.save(userModel)).thenReturn(userModel);
+        boolean status = userService.createUser(req);
+        assertEquals(status,true);
     }
-//    @Test
-//    void createUserTest() throws  Exception{
-//        when(userRepo.getUserByEmail(userModel.getEmail())).thenReturn(Optional.empty());
-//        when(userRepo.save(any(UserModel.class))).thenReturn(userModel);
-//        UserRequest userRequest = new UserRequest();
-//        userRequest.setEmail(userModel.getEmail());
-//        userRequest.setName(userModel.getName());
-//        userRequest.setPassword(userModel.getPassword());
-//        userRequest.setMobile(userModel.getMobile());
-//        boolean status = userService.createUser(userRequest);
-//
-//        //assertTrue(status);
-  //  }
+
+
+
 
 }

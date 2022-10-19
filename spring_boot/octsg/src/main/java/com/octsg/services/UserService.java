@@ -6,20 +6,14 @@ import com.octsg.Repo.UserRepo;
 import com.octsg.Request.UserRequest;
 import com.octsg.model.UserModel;
 
-import java.security.Key;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import io.jsonwebtoken.Jws;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import javax.crypto.spec.SecretKeySpec;
 
 @Service
 public class UserService {
@@ -27,15 +21,17 @@ public class UserService {
     UserRepo userRepo;
     @Autowired
     Environment environment;
+    @Value("${JWT_SECRET}")
+    private String securityKey;
     public int addition(int a, int b){
             return a+b;
     }
 
     public UserModel validateUserLogin(String email,String password)throws  Exception{
         UserModel user =  userRepo.getUserByEmailAndPassword(email,password).orElseThrow(()->new Exception("Please provide the username and password"));
-        String token = getTOkenForEmail(user);
+       String token = getTOkenForEmail(user);
         updateToken(token,user.getId());//update token with value for successful login in the databse
-        user.setToken(token);//update the the token in   the model.
+       user.setToken(token);//update the the token in   the model.
         return  user;
     }
     public boolean logout(int user_id) throws  Exception{
@@ -43,16 +39,19 @@ public class UserService {
         return  true;
     }
 
-    private  void updateToken(String token ,int userId){
+    public   void updateToken(String token ,int userId){
         userRepo.updateTokenForUserId(token,userId);//update the value in the databse against the user.
     }
 
-    private String  getTOkenForEmail(UserModel user) {
+    public String  getTOkenForEmail(UserModel user) {
+
         Calendar c = Calendar.getInstance(); // starts with today's date and time
        // c.add(Calendar.DAY_OF_YEAR, 2);  // advances day by 2
             //c.add(Calendar.HOUR_OF_DAY, 10);
             c.add(Calendar.DAY_OF_YEAR,10);
        // c.add(Calendar.SECOND, 5);//set the time
+
+
         String jwtToken = Jwts.builder()
                 .claim("email", user.getEmail())
                 .setSubject(user.getName())

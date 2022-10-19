@@ -16,10 +16,6 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import jdk.nashorn.internal.parser.JSONParser;
-import net.minidev.json.JSONArray;
-import org.json.*;
-import net.minidev.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

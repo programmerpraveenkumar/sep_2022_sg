@@ -12,8 +12,8 @@ import static org.springframework.test
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@RunWith(SpringRunner.class)
-//@WebMvcTest(UserControllerTest.class)
+@RunWith(SpringRunner.class)
+@WebMvcTest(UserControllerTest.class)
 public class UserControllerTest {
     @Autowired
     private MockMvc mvc;
