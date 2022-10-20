@@ -11,7 +11,7 @@
 	<groupId>com.octsg</groupId>
 	<artifactId>octsg</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>octsg_activemq_publisher</name>
 	<description>Demo project for Spring Boot sg</description>
 	<properties>
@@ -67,6 +67,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>octsg_activemq_publisher</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

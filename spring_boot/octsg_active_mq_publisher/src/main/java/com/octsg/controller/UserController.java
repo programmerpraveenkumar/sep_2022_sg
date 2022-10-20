@@ -18,13 +18,17 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
         @Autowired
         JmsTemplate jmsTemplate;
-    @GetMapping("publish")//this end point will match /user
-    public ResponseEntity<?> getUser(){
-        jmsTemplate.convertAndSend("oct2022","some message");
-       return ResponseEntity.ok("ok");
 
+        @GetMapping("test")//this end point will match /user
+        public ResponseEntity<?> test(){
+           return ResponseEntity.ok("ok");
+        }
 
-    }
+        @GetMapping("publish")//this end point will match /user
+        public ResponseEntity<?> getUser(){
+            jmsTemplate.convertAndSend("oct2022","some message");
+            return ResponseEntity.ok("ok");
+        }
 
 
 }

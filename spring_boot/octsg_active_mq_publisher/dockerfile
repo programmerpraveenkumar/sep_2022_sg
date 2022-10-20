@@ -1,0 +1,3 @@
+FROM adoptopenjdk/openjdk11:alpine-jre
+ADD target/octsg_activemq_publisher.jar octsg_activemq_publisher.jar
+ENTRYPOINT ["java","-jar","/octsg_activemq_publisher.jar"]
