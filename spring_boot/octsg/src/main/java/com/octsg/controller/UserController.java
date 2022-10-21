@@ -196,6 +196,18 @@ public class UserController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+    @GetMapping("listuserbycity/{city_id}")
+    public ResponseEntity<?> listuserbycity(@PathVariable Integer city_id){
+        try{
+
+            List<UserModel> list = userService.listUserByCityId(city_id);
+            return ResponseEntity.ok(list);//json response will be generated from the list.
+        }catch (Exception e){
+            GeneralResponse response = new GeneralResponse();
+            response.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
     @PostMapping("user/logout/{userId}")
     public ResponseEntity<?> listuser(@PathVariable Integer userId){
         GeneralResponse  response = new GeneralResponse();

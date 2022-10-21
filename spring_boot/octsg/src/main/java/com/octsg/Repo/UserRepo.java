@@ -29,5 +29,7 @@ DML error
 //   Integer getUsercount();
     @Query("select user from UserModel user ")
     List<UserModel> getAllUser();
+    @Query("select user from UserModel  user JOIN user.cityModel city  where city.id=?1")
+    List<UserModel> getUserByCity(int cityid);
 
 }

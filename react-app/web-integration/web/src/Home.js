@@ -8,7 +8,8 @@ import { httpPostWithHeader } from './HTTPFetch';
 
 function Home() {
    const[userList,serUserList] = useState([]);
-   
+   const[userFilterList,serUserFilterList] = useState([]);
+   const [networkList,setNetworkList] = useState([]);
    let navigate = useNavigate(); 
 
    const getApiResponse=(pageNo)=>{
@@ -23,14 +24,37 @@ function Home() {
          )
          .then(ress2=>{
                serUserList(ress2);
+               serUserFilterList(ress2);
+               getNetworkList(ress2);
          }).catch(e=>{
-
-         e.json().then(er=>{
-            console.log("Eror while fechging the records",er)
-            alert("Eror while fechging the records");
-         });
+            console.log(e);
+         // e.json().then(er=>{
+         //    console.log("Eror while fechging the records",er)
+         //    alert("Eror while fechging the records");
+         // });
          
       })
+   }
+   const getNetworkList=(userList)=>{
+      try{
+         let networkList = new Set();//will not alow the duplicates
+         for(let user in userList){
+            let userObj = userList[user];
+             if(userObj.hasOwnProperty("mobileModelList")){
+                  for(let mobile in userObj.mobileModelList){
+                    
+                     networkList.add(userObj.mobileModelList[mobile]['network'])
+                     
+                  }
+             }
+         }
+         //console.log(networkList);
+         setNetworkList(Array.from(networkList));
+      }catch(e){
+            console.log(e);
+      }
+    
+
    }
    const checkLoginToken=()=>{
          let token = localStorage.getItem("token");
@@ -38,6 +62,13 @@ function Home() {
             return false;
          }
          return true;
+   }
+   const filterUserByCity=(cityId)=>{
+      let filterList = userList.filter(userObj=>userObj.cityModel?.id == cityId);
+      serUserFilterList(filterList);
+   }
+   const clearSearch=()=>{
+      serUserFilterList(userList);
    }
    useEffect(()=>{
       if(checkLoginToken()){
@@ -140,10 +171,44 @@ function Home() {
                </div>
             </div>
          </div>
+         
          <div class="container-fluid">
+            <div>  <select>
+                  {
+                     networkList && networkList.map((obj,index)=>{
+                        return (
+                        <option>{obj}</option>
+                        )
+                     }
+                     )
+                  }
+               
+             </select></div>
+             <div>  <select onChange={(e)=>filterUserByCity(e.target.value)}>
+                  
+                  <option value="1">newcity1</option>
+                  <option value="3">City3</option>
+               
+             </select>
+             <button onClick={clearSearch}>Clear Search</button>
+             </div>
             <div class="row">
-
-               {
+            {
+                  userFilterList && userFilterList.map((obj,index)=>{
+                     return(
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                        <div class="glasses_box">
+                          
+                           <h3><span class="blu"></span>{obj.name}</h3>
+                           <p>{obj?.email}</p>
+                           <p>{obj?.cityModel?.name}</p>
+                        </div>
+                     </div>
+                     )
+                  })
+               }
+              
+               {/* {
                   glassList.map((obj,index)=>{
                      return(
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
@@ -156,20 +221,7 @@ function Home() {
                      )
                   })
                }
-             
-              {
-                  userList && userList.map((obj,index)=>{
-                     return(
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                        <div class="glasses_box">
-                          
-                           <h3><span class="blu"></span>{obj.name}</h3>
-                           <p>{obj.email}</p>
-                        </div>
-                     </div>
-                     )
-                  })
-               }
+            */}
               
             
                <div class="col-md-12">

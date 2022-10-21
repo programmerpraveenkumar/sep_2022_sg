@@ -4,6 +4,7 @@ package com.octsg.services;
 import com.octsg.Configuration.CustomException;
 import com.octsg.Repo.UserRepo;
 import com.octsg.Request.UserRequest;
+import com.octsg.model.MobileModel;
 import com.octsg.model.UserModel;
 
 import java.util.*;
@@ -150,11 +151,26 @@ public class UserService {
 //        userRepo.findAll().forEach((obj) -> {
 //            System.out.println(obj.getId() + " " + obj.getEmail());
 //        });
-        return userRepo.findAll();//get all the data from the userModel table.
+        List<UserModel> userModelList =  userRepo.findAll();//get all the data from the userModel table.
+//        List<UserModel> fiterList = new ArrayList<>();
+//        for(UserModel user:userModelList){
+//            for(MobileModel mobile :user.getMobileModelList()){
+//                if(mobile.getNetwork().equals("net1")){
+//                    //add the user list
+//                    fiterList.add(user);
+//                }
+//            }
+//        }
+//        //userModelList.stream().filter(obj->obj.getMobileModelList() != null).filter(mobile->mobile.get)
+//        //call the city and match data.
+//        return fiterList;
 
+        return userModelList;
 
     }
-
+    public List<UserModel> listUserByCityId(int cityId) throws  Exception {
+            return userRepo.getUserByCity(cityId);
+    }
     public boolean validateToken(String token,Integer userId) throws  Exception{
             UserModel user = listUser(userId);//get the user details by the userid
             if(user.getToken().equals(token)){

@@ -3,6 +3,8 @@ package com.octsg.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+import java.util.List;
 import lombok.*;
 import javax.persistence.*;
 /*
@@ -31,6 +33,13 @@ public class UserModel {
     String password;
     String profile_pic;
 
+    @OneToOne
+    @JoinColumn(name="city_id",referencedColumnName ="id" )
+    CityModel cityModel;
+
+    @OneToMany
+    @JoinColumn(name="user_id",referencedColumnName ="id" )
+    List<MobileModel> mobileModelList;
 
 
 

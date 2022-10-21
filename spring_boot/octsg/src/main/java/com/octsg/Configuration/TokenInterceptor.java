@@ -23,36 +23,37 @@ public class TokenInterceptor implements HandlerInterceptor {
         try{
             String current_url = request.getRequestURL().toString();
             System.out.println("current url "+current_url+" method is "+request.getMethod());
-            if(request.getMethod().equals("OPTIONS")){
-                return true;
-            }
-
-            if(current_url.endsWith("userLogin") || current_url.contains("readImage")){
-                System.out.println("excluding the url "+current_url);
-                return  true;//for login method no need to check the token and user id
-            }
-
-
-
-            String token = request.getHeader("token");//access the toekn from the request
-            String userId = request.getHeader("userId");//access the userId from the request
-            System.out.println(token+" "+userId);
-            if(token == null || token.equals("")){
-                System.out.println("token is null");
-                throw new CustomException("please send the token");
-            }
-            if(userId == null ||userId.equals("")){
-                System.out.println("userId is null");
-                throw new CustomException("please send the userId");
-            }
-            Integer int_user_id = Integer.parseInt(userId);//conver the string to int;
-            userService.checkJWTToken(token);
-            ////failure will throw the exception.
-            if(userService.validateToken(token,int_user_id)){
-                return true;//goes to controller
-            }else {
-                return false;//will stop here.
-            }
+        return true;
+            //            if(request.getMethod().equals("OPTIONS")){
+//                return true;
+//            }
+//
+//            if(current_url.endsWith("userLogin") || current_url.contains("readImage")){
+//                System.out.println("excluding the url "+current_url);
+//                return  true;//for login method no need to check the token and user id
+//            }
+//
+//
+//
+//            String token = request.getHeader("token");//access the toekn from the request
+//            String userId = request.getHeader("userId");//access the userId from the request
+//            System.out.println(token+" "+userId);
+//            if(token == null || token.equals("")){
+//                System.out.println("token is null");
+//                throw new CustomException("please send the token");
+//            }
+//            if(userId == null ||userId.equals("")){
+//                System.out.println("userId is null");
+//                throw new CustomException("please send the userId");
+//            }
+//            Integer int_user_id = Integer.parseInt(userId);//conver the string to int;
+//            userService.checkJWTToken(token);
+//            ////failure will throw the exception.
+//            if(userService.validateToken(token,int_user_id)){
+//                return true;//goes to controller
+//            }else {
+//                return false;//will stop here.
+//            }
 
         }catch (Exception e){
             throw new CustomException(e.getMessage());

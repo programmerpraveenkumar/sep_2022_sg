@@ -28,11 +28,10 @@ export  const httpGetWithHeader=(endpointurl)=>{
 export  const httpPostWithoutHeader=(endpointurl,requestParam)=>{  
     return fetch("http://localhost:8080/"+endpointurl,{
          method:"POST",
-         body:JSON.stringify(requestParam,
+         body:JSON.stringify(requestParam),
          headers:{
-            "content-type":"application/json",
-         
+            "content-type":"application/json"         
          }
-      })
+      });
 
 }

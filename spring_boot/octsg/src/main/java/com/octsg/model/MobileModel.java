@@ -9,11 +9,13 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "city")
-public class CityModel {
+@Table(name = "mobile")
+public class MobileModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
-    String name;
+    String mobile_no;
+    String network;
+    int user_id;
 
 }
